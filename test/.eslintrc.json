@@ -1,0 +1,8 @@
+{
+  "parserOptions": {
+    "tsconfigRootDir": "../"
+  },
+  "rules": {
+    "jest/expect-expect": "off"
+  }
+}

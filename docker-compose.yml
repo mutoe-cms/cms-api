@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: cms-api-postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: ${TYPEORM_USERNAME}
+      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
+      PGDATA: /data/postgres
+      POSTGRES_DB: ${TYPEORM_DATABASE}
+    ports:
+    - '${TYPEORM_PORT}:5432'
+
+  nest:
+    container_name: cms-api-nest
+    image: mutoe/cms-api:0.2.0
+    environment:
+      SWAGGER_ENABLE: 'true'
+      TYPEORM_HOST: cms-api-postgres
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
