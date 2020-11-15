@@ -2,9 +2,9 @@ FROM node:14-alpine AS development
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package.json yarn.lock ./
 
-RUN yarn install
+RUN yarn install --verbose --ignore-optional --non-interactive --frozen-lockfile
 
 COPY . .
 
@@ -18,11 +18,9 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package.json yarn.lock ./
 
-RUN yarn install
-
-COPY . .
+RUN yarn install --verbose --prod --ignore-optional --non-interactive --frozen-lockfile
 
 COPY --from=development /usr/src/app/dist ./dist
 
