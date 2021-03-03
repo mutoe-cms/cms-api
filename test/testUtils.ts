@@ -1,8 +1,8 @@
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 
-export const getToken = (app: INestApplication): Promise<string> => {
-  return new Promise((resolve, reject) => {
+export const getToken = async (app: INestApplication): Promise<string> => {
+  return await new Promise((resolve, reject) => {
     request(app.getHttpServer()).post('/auth/register')
       .send({
         username: 'admin',

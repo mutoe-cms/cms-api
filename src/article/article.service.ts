@@ -20,6 +20,6 @@ export class ArticleService {
   }
 
   async retrieveArticles (options: PaginationOptions): Promise<PaginationRo<ArticleEntity>> {
-    return paginate(this.articleRepository, options)
+    return await paginate(this.articleRepository, options)
   }
 }

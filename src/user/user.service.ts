@@ -16,13 +16,13 @@ export class UserService {
     @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async createUser (userInfo: { email: string; username: string; password: string }): Promise<UserSafeEntity> {
+  async createUser (userInfo: { email: string, username: string, password: string }): Promise<UserSafeEntity> {
     const userEntity = await this.userRepository.save(Object.assign(new UserEntity(), userInfo))
     return omit(userEntity, ['password'])
   }
 
   async findUser (where: FindUserQuery, withPassword = false): Promise<UserEntity> {
-    if (!withPassword) return this.userRepository.findOne({ where })
+    if (!withPassword) return await this.userRepository.findOne({ where })
 
     const select = Object.keys(this.userRepository.metadata.propertiesMap) as (keyof UserEntity)[]
     return await this.userRepository.findOne({ where, select })

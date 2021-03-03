@@ -23,6 +23,7 @@ export interface PaginationRo<T> {
 type ClassType<T = any> = new (...args: any[]) => T
 
 // istanbul ignore next
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export function PaginationRo<T extends ClassType> (ResourceClass: T) {
   class Pagination implements PaginationRo<T> {
     @ApiResponseProperty({ type: [ResourceClass] })

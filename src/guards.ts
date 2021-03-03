@@ -7,7 +7,7 @@ export const UseJwtGuards = (): MethodDecorator => {
   const apiBearerAuth = ApiBearerAuth()
   const apiUnauthorizedResponse = ApiUnauthorizedResponse()
 
-  const decorator : MethodDecorator = (...args) => {
+  const decorator: MethodDecorator = (...args) => {
     jwtGuards(...args)
     apiBearerAuth(...args)
     apiUnauthorizedResponse(...args)

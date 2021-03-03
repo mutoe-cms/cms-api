@@ -8,6 +8,7 @@ type FormExceptionKey =
   | 'isNotExist'
   | 'isInvalid'
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class FormExceptionBody implements Record<string, FormExceptionKey[]> {
   [x: string]: FormExceptionKey[]
 }
@@ -36,6 +37,7 @@ export const ApiInvalidFormResponse = () => {
 }
 
 export class FormException extends UnprocessableEntityException {
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor (body: FormExceptionBody) {
     super(body)
   }

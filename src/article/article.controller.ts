@@ -33,7 +33,7 @@ export class ArticleController {
   @ApiListResponse(ArticlesRo)
   async retrieveArticles (
     @Query('page') page: number,
-    @Query('limit') limit: number,
+      @Query('limit') limit: number,
   ): Promise<PaginationRo<ArticleEntity>> {
     return await this.articleService.retrieveArticles({ page, limit })
   }

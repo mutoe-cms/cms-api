@@ -18,8 +18,8 @@ describe('App Module Integration', () => {
     await app.close()
   })
 
-  it('/hello (GET)', () => {
-    return request(app.getHttpServer())
+  it('/hello (GET)', async () => {
+    return await request(app.getHttpServer())
       .get('/hello?name=world')
       .expect(200)
       .expect('Hello world!')
