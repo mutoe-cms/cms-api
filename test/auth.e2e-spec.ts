@@ -35,7 +35,7 @@ describe('Auth Module Integration', () => {
     it('should return 201', async () => {
       const requestBody: RegisterDto = {
         username: 'admin',
-        email: 'admin@cms.com',
+        email: 'admin@cms.mutoe.com',
         password: '123456',
       }
       const response = await request(app.getHttpServer())
@@ -46,7 +46,7 @@ describe('Auth Module Integration', () => {
       expect(response.body).toEqual(expect.objectContaining({
         id: 1,
         username: 'admin',
-        email: 'admin@cms.com',
+        email: 'admin@cms.mutoe.com',
         token: expect.any(String),
       }))
       expect(response.body).not.toHaveProperty('password')
@@ -55,7 +55,7 @@ describe('Auth Module Integration', () => {
     it('should return 422 given exist username', async () => {
       const requestBody: RegisterDto = {
         username: 'admin',
-        email: 'admin2@cms.com',
+        email: 'admin2@cms.mutoe.com',
         password: '123456',
       }
       const response = await request(app.getHttpServer())
@@ -69,7 +69,7 @@ describe('Auth Module Integration', () => {
     it('should return 422 given exist email', async () => {
       const requestBody: RegisterDto = {
         username: 'admin2',
-        email: 'admin@cms.com',
+        email: 'admin@cms.mutoe.com',
         password: '123456',
       }
       const response = await request(app.getHttpServer())
@@ -95,7 +95,7 @@ describe('Auth Module Integration', () => {
       expect(response.body).toEqual(expect.objectContaining({
         id: 1,
         username: 'admin',
-        email: 'admin@cms.com',
+        email: 'admin@cms.mutoe.com',
         token: expect.any(String),
       }))
       expect(response.body).not.toHaveProperty('password')

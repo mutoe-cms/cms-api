@@ -2,10 +2,10 @@ import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from 'src/app/app.controller'
-import { validationPipe } from 'src/pipes'
 import { ArticleModule } from 'src/article/article.module'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { AuthModule } from 'src/auth/auth.module'
+import { validationPipe } from 'src/pipes'
 import { UserModule } from 'src/user/user.module'
 import * as request from 'supertest'
 import { getToken, mockDate } from 'test/testUtils'
@@ -114,7 +114,7 @@ describe('Article Module Integration', () => {
         user: expect.objectContaining({
           id: 1,
           username: 'admin',
-          email: 'admin@cms.com',
+          email: 'admin@cms.mutoe.com',
         }),
       }))
     })

@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core'
+import { Logger } from '@nestjs/common'
 import { AppModule } from 'src/app/app.module'
 import { validationPipe } from 'src/pipes'
 import { NEST_PORT, SWAGGER_ENABLE } from 'src/config'
@@ -14,6 +15,9 @@ async function bootstrap () {
   }
 
   await app.listen(NEST_PORT)
+
+  const logger = new Logger('NestApplication')
+  logger.log(`Listening http://0.0.0.0:${NEST_PORT}`)
 }
 
 bootstrap().catch(err => console.error(err))

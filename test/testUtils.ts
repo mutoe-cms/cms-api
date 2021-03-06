@@ -6,7 +6,7 @@ export const getToken = async (app: INestApplication): Promise<string> => {
     request(app.getHttpServer()).post('/auth/register')
       .send({
         username: 'admin',
-        email: 'admin@cms.com',
+        email: 'admin@cms.mutoe.com',
         password: '123456',
       })
       .then(response => {
@@ -24,7 +24,7 @@ export const mockDate = (date: Date | string | number) => {
     }
   }
 
-  (global.Date as any) = MockDate
+  global.Date = MockDate as DateConstructor
 
   return () => {
     global.Date = Date
