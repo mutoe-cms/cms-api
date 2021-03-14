@@ -2,11 +2,13 @@ import { NestFactory } from '@nestjs/core'
 import { Logger } from '@nestjs/common'
 import { AppModule } from 'src/app/app.module'
 import { validationPipe } from 'src/pipes'
-import { NEST_PORT, SWAGGER_ENABLE } from 'src/config'
+import { PROD, NEST_PORT, SWAGGER_ENABLE } from 'src/config'
 import { createSwagger } from 'src/setup'
 
 async function bootstrap () {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, {
+    cors: !PROD,
+  })
   app.useGlobalPipes(validationPipe)
   app.setGlobalPrefix('/api')
 
