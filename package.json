@@ -97,20 +97,20 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "modulePaths": [
-      "<rootDir>/../"
+      "<rootDir>"
     ],
-    "testRegex": ".spec.ts$",
+    "testRegex": "src\/.*.spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "testEnvironment": "node",
-    "coverageDirectory": "<rootDir>/../coverage",
+    "coverageDirectory": "<rootDir>/coverage",
     "collectCoverageFrom": [
-      "<rootDir>/**/*.ts",
-      "!<rootDir>/*.ts",
-      "!<rootDir>/**/*.{module,dto,ro,strategy,entity,controller}.ts"
+      "<rootDir>/src/**/*.ts",
+      "!<rootDir>/src/*.ts",
+      "!<rootDir>/src/**/*.{module,dto,ro,strategy,entity,controller}.ts"
     ],
     "coverageThreshold": {
       "global": {
