@@ -1,7 +1,16 @@
-# Change Log
+# 0.3.0 (2021-03-14)
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+### Bug Fixes
+
+* fix test match issue ([88535a0](https://github.com/mutoe-cms/mutoe-cms/commit/88535a0832ab982bce6543058a615e2a07646b5b))
+
+
+### Features
+
+* enable CORS in development mode ([88b69f6](https://github.com/mutoe-cms/mutoe-cms/commit/88b69f65872965ba2de2efa6404f4570897eb75b))
+
+
 
 # 0.2.0 (2020-08-23)
 

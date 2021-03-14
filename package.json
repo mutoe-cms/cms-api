@@ -1,6 +1,6 @@
 {
   "name": "cms-api",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "author": "mutoe <mutoe@foxmail.com>",
   "private": true,
@@ -16,7 +16,8 @@
     "test": "yarn test:unit --coverage && yarn test:integration",
     "test:unit": "jest",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:integration": "jest --config ./test/jest-e2e.json"
+    "test:integration": "jest --config ./test/jest-e2e.json",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.13",
