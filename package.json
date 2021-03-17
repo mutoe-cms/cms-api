@@ -61,6 +61,7 @@
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "^7.21.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.22.1",
@@ -87,6 +88,11 @@
   "lint-staged": {
     "{src,migration,seed,test}/**/*.ts": "eslint --fix"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -102,7 +108,7 @@
     "modulePaths": [
       "<rootDir>"
     ],
-    "testRegex": "src\/.*.spec.ts$",
+    "testRegex": "src/.*.spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
@@ -172,7 +178,9 @@
         }
       },
       {
-        "files": ["test/**/*.ts"],
+        "files": [
+          "test/**/*.ts"
+        ],
         "rules": {
           "jest/expect-expect": "off"
         }
