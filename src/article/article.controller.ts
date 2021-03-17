@@ -23,7 +23,9 @@ export class ArticleController {
   @ApiOperation({ operationId: 'createArticle', summary: 'Create article' })
   @ApiCreatedResponse({ type: ArticleEntity })
   @ApiUnprocessableEntityResponse()
-  async createArticle (@Request() { user }: AuthRequest, @Body() createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
+  async createArticle (
+    @Request() { user }: AuthRequest,
+      @Body() createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
     const userEntity = await this.userService.findUser({ id: user.userId }, true)
     return await this.articleService.createArticle(userEntity, createArticleDto)
   }

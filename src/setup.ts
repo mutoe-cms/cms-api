@@ -11,6 +11,7 @@ export function createSwagger (app: INestApplication) {
     .addTag('Auth', 'Authorization')
     .addTag('User', 'User')
     .addTag('Article', 'Article')
+    .addTag('Tag', 'Tag')
     .build()
 
   const document = SwaggerModule.createDocument(app, options)

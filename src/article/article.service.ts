@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { paginate, PaginationRo, PaginationOptions } from 'src/utils/paginate'
 import { ArticleEntity } from 'src/article/article.entity'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { UserEntity } from 'src/user/user.entity'
-import { Repository } from 'typeorm/index'
+import { paginate, PaginationOptions, PaginationRo } from 'src/utils/paginate'
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class ArticleService {
