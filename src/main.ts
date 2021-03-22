@@ -1,8 +1,8 @@
-import { NestFactory } from '@nestjs/core'
 import { Logger } from '@nestjs/common'
+import { NestFactory } from '@nestjs/core'
 import { AppModule } from 'src/app/app.module'
+import { NEST_PORT, PROD, SWAGGER_ENABLE } from 'src/config'
 import { validationPipe } from 'src/pipes'
-import { PROD, NEST_PORT, SWAGGER_ENABLE } from 'src/config'
 import { createSwagger } from 'src/setup'
 
 async function bootstrap () {
@@ -14,12 +14,14 @@ async function bootstrap () {
 
   if (SWAGGER_ENABLE) {
     createSwagger(app)
+    setTimeout(() => {
+      new Logger('Swagger').log(`Swagger is started at http://0.0.0.0:${NEST_PORT}/docs`)
+    })
   }
 
   await app.listen(NEST_PORT)
 
-  const logger = new Logger('NestApplication')
-  logger.log(`Listening http://0.0.0.0:${NEST_PORT}`)
+  new Logger('NestApplication').log(`Listening http://0.0.0.0:${NEST_PORT}`)
 }
 
 bootstrap().catch(err => console.error(err))
