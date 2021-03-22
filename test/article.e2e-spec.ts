@@ -56,6 +56,7 @@ describe('Article Module Integration', () => {
       expect(response.body).toEqual({
         id: 1,
         title: 'title',
+        tags: [],
         content: '<p>I am content</p>',
         createdAt: '2017-11-25T12:34:56.000Z',
         updatedAt: '2017-11-25T12:34:56.000Z',
@@ -91,6 +92,22 @@ describe('Article Module Integration', () => {
 
       expect(response.status).toBe(422)
       expect(response.body).toHaveProperty('title', ['isNotEmpty'])
+    })
+
+    it('should return 422 when create article given an invalid tag', async function () {
+      const requestBody: CreateArticleDto = {
+        title: 'Title',
+        tags: ['not-exist'],
+        content: '<p>I am content</p>',
+      }
+
+      const response = await request(app.getHttpServer())
+        .post('/article')
+        .auth(token, { type: 'bearer' })
+        .send(requestBody)
+
+      expect(response.status).toBe(422)
+      expect(response.body).toHaveProperty('tag', ['not-exist is not exists.'])
     })
   })
 

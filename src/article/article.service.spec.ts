@@ -3,12 +3,15 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 import { ArticleEntity } from 'src/article/article.entity'
 import { ArticleService } from 'src/article/article.service'
 import { ArticlesRo } from 'src/article/ro/articles.ro'
+import { FormException } from 'src/exception'
+import { TagEntity } from 'src/tag/tag.entity'
 import { UserEntity } from 'src/user/user.entity'
 import { Repository } from 'typeorm'
 
 describe('Article Service', () => {
   let articleService: ArticleService
   let articleRepository: Repository<ArticleEntity>
+  let tagRepository: Repository<TagEntity>
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,11 +25,18 @@ describe('Article Service', () => {
             findAndCount: jest.fn(),
           },
         },
+        {
+          provide: getRepositoryToken(TagEntity),
+          useValue: {
+            find: jest.fn(),
+          },
+        },
       ],
     }).compile()
 
     articleService = module.get(ArticleService)
     articleRepository = module.get(getRepositoryToken(ArticleEntity))
+    tagRepository = module.get(getRepositoryToken(TagEntity))
   })
 
   it('should be defined', () => {
@@ -36,9 +46,10 @@ describe('Article Service', () => {
 
   describe('create article', () => {
     it('should create article correctly', async function () {
+      jest.spyOn(tagRepository, 'find').mockResolvedValue([])
       jest.spyOn(articleRepository, 'create').mockReturnValue({ title: 'foo', content: 'content', id: 1 } as any)
       const user: UserEntity = { id: 1, email: 'mutoe@foxmail.com', username: 'mutoe' } as UserEntity
-      await articleService.createArticle(user, { title: 'foo', content: 'content' })
+      await articleService.createArticle(user, { title: 'foo', tags: [], content: 'content' })
 
       expect(articleRepository.save).toBeCalledWith({
         id: 1,
@@ -46,6 +57,15 @@ describe('Article Service', () => {
         content: 'content',
         user,
       })
+    })
+
+    it('should throw error when create article given dto without body', async function () {
+      jest.spyOn(articleRepository, 'create').mockReturnValue({ title: 'foo', content: 'content', id: 1 } as any)
+      jest.spyOn(tagRepository, 'find').mockResolvedValue([])
+      const user: UserEntity = { id: 1, email: 'mutoe@foxmail.com', username: 'mutoe' } as UserEntity
+      await expect(
+        articleService.createArticle(user, { title: 'foo', tags: ['semantic-ui'], content: 'content' }),
+      ).rejects.toThrowError(FormException)
     })
   })
 

@@ -7,6 +7,7 @@ type FormExceptionKey =
   | 'isExist'
   | 'isNotExist'
   | 'isInvalid'
+  | string
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class FormExceptionBody implements Record<string, FormExceptionKey[]> {
