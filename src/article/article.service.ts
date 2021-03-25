@@ -5,7 +5,7 @@ import { ArticleEntity } from 'src/article/article.entity'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { FormException } from 'src/exception'
 import { TagEntity } from 'src/tag/tag.entity'
-import { UserEntity } from 'src/user/user.entity'
+import { UserSafeEntity } from 'src/user/user.entity'
 import { paginate, PaginationOptions, PaginationRo } from 'src/utils/paginate'
 import { In, Repository } from 'typeorm'
 
@@ -18,7 +18,7 @@ export class ArticleService {
     private readonly tagRepository: Repository<TagEntity>,
   ) {}
 
-  async createArticle (user: UserEntity, createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
+  async createArticle (user: UserSafeEntity, createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
     const tagEntities = await this.tagRepository.find({ where: { key: In(createArticleDto.tags) } })
     const differenceTags = xor(tagEntities.map(entity => entity.key), createArticleDto.tags)
     if (differenceTags.length) {

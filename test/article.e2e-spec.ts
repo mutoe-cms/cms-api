@@ -65,6 +65,7 @@ describe('Article Module Integration', () => {
           username: 'admin',
         }),
       })
+      expect(response.body.user).not.toHaveProperty('password')
     })
 
     it('should return 401 when create article with invalid token', async () => {
@@ -134,6 +135,7 @@ describe('Article Module Integration', () => {
           email: 'admin@cms.mutoe.com',
         }),
       }))
+      expect(response.body.items[0].user).not.toHaveProperty('password')
     })
   })
 })

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { TagEntity } from 'src/tag/tag.entity'
-import { UserEntity } from 'src/user/user.entity'
+import { UserEntity, UserSafeEntity } from 'src/user/user.entity'
 import {
   Column,
   CreateDateColumn,
@@ -22,7 +22,7 @@ export class ArticleEntity {
 
   @ManyToOne(() => UserEntity, { eager: true, cascade: ['update'] })
   @ApiProperty()
-  user: UserEntity
+  user: UserSafeEntity
 
   @Column({ type: 'text' })
   @ApiProperty({ example: 'Lorem ipsum' })

@@ -26,7 +26,7 @@ export class ArticleController {
   async createArticle (
     @Request() { user }: AuthRequest,
       @Body() createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
-    const userEntity = await this.userService.findUser({ id: user.userId }, true)
+    const userEntity = await this.userService.findUser({ id: user.userId })
     return await this.articleService.createArticle(userEntity, createArticleDto)
   }
 

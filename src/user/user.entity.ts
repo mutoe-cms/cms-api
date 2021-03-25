@@ -54,4 +54,4 @@ export class UserEntity {
   updatedAt: string
 }
 
-export type UserSafeEntity = Omit<UserEntity, 'password'>
+export type UserSafeEntity = Omit<UserEntity, 'password'> & { password?: never }
