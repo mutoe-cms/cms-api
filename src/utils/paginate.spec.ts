@@ -1,5 +1,5 @@
 import { paginate, PaginationRo } from 'src/utils/paginate'
-import { Repository } from 'typeorm/index'
+import { Repository } from 'typeorm'
 
 describe('# Paginate', () => {
   const cat = new Repository()
@@ -7,7 +7,7 @@ describe('# Paginate', () => {
 
   it('should return correct value given offset with 0', async () => {
     jest.spyOn(cat, 'findAndCount').mockResolvedValue([cats, 11])
-    const pagination = await paginate(cat, { limit: 10, page: 1 })
+    const pagination = await paginate(cat)
 
     expect(pagination).toEqual({
       items: cats,
@@ -22,7 +22,7 @@ describe('# Paginate', () => {
 
   it('should return correct value given offset with 10', async () => {
     jest.spyOn(cat, 'findAndCount').mockResolvedValue([cats, 11])
-    const pagination = await paginate(cat, { limit: 10, page: 1 })
+    const pagination = await paginate(cat, { limit: 10, order: { id: 'DESC' } })
 
     expect(pagination).toEqual({
       items: cats,
@@ -37,7 +37,7 @@ describe('# Paginate', () => {
 
   it('should return correct value given total with 10', async () => {
     jest.spyOn(cat, 'findAndCount').mockResolvedValue([cats, 10])
-    const pagination = await paginate(cat, { limit: 10, page: 2 })
+    const pagination = await paginate(cat, { page: 2 })
 
     expect(pagination).toEqual({
       items: cats,

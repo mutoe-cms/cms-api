@@ -120,11 +120,11 @@
       "!<rootDir>/src/**/*.{module,dto,ro,strategy,entity,controller}.ts"
     ],
     "coverageThreshold": {
-      "global": {
-        "branches": 80,
+      "src/**/*.ts": {
+        "branches": 70,
         "statements": 80,
         "functions": 80,
-        "lines": 80
+        "lines": 70
       }
     }
   },
