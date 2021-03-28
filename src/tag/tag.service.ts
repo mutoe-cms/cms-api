@@ -9,14 +9,14 @@ import { Repository } from 'typeorm'
 export class TagService {
   constructor (
     @InjectRepository(TagEntity)
-    private readonly tagRepository: Repository<TagEntity>,
+    private readonly repository: Repository<TagEntity>,
   ) {}
 
   async createTag (createTagDto: CreateTagDto): Promise<TagEntity> {
-    return await this.tagRepository.save(createTagDto)
+    return await this.repository.save(createTagDto)
   }
 
   async retrieveTags (options: PaginationOptions) {
-    return await paginate(this.tagRepository, options)
+    return await paginate(this.repository, options)
   }
 }

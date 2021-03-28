@@ -13,20 +13,21 @@ interface FindUserQuery {
 @Injectable()
 export class UserService {
   constructor (
-    @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository<UserEntity>,
   ) {}
 
   async createUser (userInfo: { email: string, username: string, password: string }): Promise<UserSafeEntity> {
-    const userEntity = await this.userRepository.save(Object.assign(new UserEntity(), userInfo))
+    const userEntity = await this.repository.save(Object.assign(new UserEntity(), userInfo))
     return omit(userEntity, ['password'])
   }
 
   async findUser (where: FindUserQuery, withPassword: true): Promise<UserEntity>
   async findUser (where: FindUserQuery, withPassword?: false): Promise<UserSafeEntity>
   async findUser (where: FindUserQuery, withPassword: boolean = false): Promise<UserEntity | UserSafeEntity> {
-    if (!withPassword) return await this.userRepository.findOne({ where })
+    if (!withPassword) return await this.repository.findOne({ where })
 
-    const select = Object.keys(this.userRepository.metadata.propertiesMap) as (keyof UserEntity)[]
-    return await this.userRepository.findOne({ where, select })
+    const select = Object.keys(this.repository.metadata.propertiesMap) as (keyof UserEntity)[]
+    return await this.repository.findOne({ where, select })
   }
 }

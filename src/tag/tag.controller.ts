@@ -12,7 +12,7 @@ import { PaginationRo } from 'src/utils/paginate'
 @ApiTags('Tag')
 export class TagController {
   constructor (
-    private readonly tagService: TagService,
+    private readonly service: TagService,
   ) {}
 
   @UseJwtGuards()
@@ -21,7 +21,7 @@ export class TagController {
   @ApiCreatedResponse({ type: TagEntity })
   @ApiUnprocessableEntityResponse()
   async createTag (@Body() createTagDto: CreateTagDto): Promise<TagEntity> {
-    return await this.tagService.createTag(createTagDto)
+    return await this.service.createTag(createTagDto)
   }
 
   @Get('/')
@@ -31,6 +31,6 @@ export class TagController {
     @Query('page') page: number,
       @Query('limit') limit: number,
   ): Promise<PaginationRo<TagEntity>> {
-    return await this.tagService.retrieveTags({ page, limit })
+    return await this.service.retrieveTags({ page, limit })
   }
 }

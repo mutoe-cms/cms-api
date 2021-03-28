@@ -13,7 +13,7 @@ import { In, Repository } from 'typeorm'
 export class ArticleService {
   constructor (
     @InjectRepository(ArticleEntity)
-    private readonly articleRepository: Repository<ArticleEntity>,
+    private readonly repository: Repository<ArticleEntity>,
     @InjectRepository(TagEntity)
     private readonly tagRepository: Repository<TagEntity>,
   ) {}
@@ -24,15 +24,15 @@ export class ArticleService {
     if (differenceTags.length) {
       throw new FormException({ tags: differenceTags.map(tag => `${tag} is not exists.`) })
     }
-    const articleEntity = this.articleRepository.create({
+    const articleEntity = this.repository.create({
       ...createArticleDto,
       tags: tagEntities,
     })
     articleEntity.user = user
-    return await this.articleRepository.save(articleEntity)
+    return await this.repository.save(articleEntity)
   }
 
   async retrieveArticles (options: PaginationOptions): Promise<PaginationRo<ArticleEntity>> {
-    return await paginate(this.articleRepository, options)
+    return await paginate(this.repository, options)
   }
 }
