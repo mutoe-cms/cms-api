@@ -1,5 +1,5 @@
 import { ApiResponseProperty } from '@nestjs/swagger'
-import { FindConditions, FindManyOptions, ObjectLiteral, Repository } from 'typeorm'
+import { FindConditions, FindManyOptions, FindOneOptions, ObjectLiteral, Repository } from 'typeorm'
 
 export class PaginationMeta {
   @ApiResponseProperty({ example: 15 })
@@ -39,6 +39,7 @@ export function PaginationRo<T extends ClassType> (ResourceClass: T) {
 export interface PaginationOptions {
   page?: number
   limit?: number
+  order?: FindOneOptions['order']
 }
 
 export async function paginate<T extends ObjectLiteral> (
@@ -48,9 +49,10 @@ export async function paginate<T extends ObjectLiteral> (
 ): Promise<PaginationRo<T>> {
   const page = options.page || 1
   const limit = options.limit || 10
+  const order = options.order || { createdAt: 'DESC' }
 
   const offset = (page - 1) * limit
-  searchOptions = Object.assign({ skip: offset, take: limit, order: { id: 'DESC' } }, searchOptions)
+  searchOptions = Object.assign({ skip: offset, take: limit, order }, searchOptions)
   const [items, total] = await repository.findAndCount(searchOptions)
 
   const totalPages = Math.ceil(total / limit)

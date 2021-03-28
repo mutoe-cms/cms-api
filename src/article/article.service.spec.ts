@@ -5,7 +5,7 @@ import { ArticleService } from 'src/article/article.service'
 import { ArticlesRo } from 'src/article/ro/articles.ro'
 import { FormException } from 'src/exception'
 import { TagEntity } from 'src/tag/tag.entity'
-import { UserEntity } from 'src/user/user.entity'
+import { UserSafeEntity } from 'src/user/user.entity'
 import { Repository } from 'typeorm'
 
 describe('Article Service', () => {
@@ -48,7 +48,7 @@ describe('Article Service', () => {
     it('should create article correctly', async function () {
       jest.spyOn(tagRepository, 'find').mockResolvedValue([])
       jest.spyOn(articleRepository, 'create').mockReturnValue({ title: 'foo', content: 'content', id: 1 } as any)
-      const user: UserEntity = { id: 1, email: 'mutoe@foxmail.com', username: 'mutoe' } as UserEntity
+      const user: UserSafeEntity = { id: 1, email: 'mutoe@foxmail.com', username: 'mutoe' } as UserSafeEntity
       await articleService.createArticle(user, { title: 'foo', tags: [], content: 'content' })
 
       expect(articleRepository.save).toBeCalledWith({
@@ -62,7 +62,7 @@ describe('Article Service', () => {
     it('should throw error when create article given dto without body', async function () {
       jest.spyOn(articleRepository, 'create').mockReturnValue({ title: 'foo', content: 'content', id: 1 } as any)
       jest.spyOn(tagRepository, 'find').mockResolvedValue([])
-      const user: UserEntity = { id: 1, email: 'mutoe@foxmail.com', username: 'mutoe' } as UserEntity
+      const user: UserSafeEntity = { id: 1, email: 'mutoe@foxmail.com', username: 'mutoe' } as UserSafeEntity
       await expect(
         articleService.createArticle(user, { title: 'foo', tags: ['semantic-ui'], content: 'content' }),
       ).rejects.toThrowError(FormException)
@@ -83,7 +83,7 @@ describe('Article Service', () => {
           totalPages: 0,
         },
       } as ArticlesRo)
-      expect(articleRepository.findAndCount).toBeCalledWith({ order: { id: 'DESC' }, skip: 0, take: 10 })
+      expect(articleRepository.findAndCount).toBeCalledWith({ order: { createdAt: 'DESC' }, skip: 0, take: 10 })
     })
   })
 })

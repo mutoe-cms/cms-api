@@ -89,4 +89,25 @@ describe('Article Module Integration', () => {
       expect(response.body).toHaveProperty('name', ['isNotEmpty'])
     })
   })
+
+  describe('/tag (GET)', () => {
+    it('should return 200 when retrieve tags', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/tag')
+
+      expect(response.status).toBe(200)
+      expect(response.body.meta).toEqual({
+        total: 1,
+        limit: 10,
+        totalPages: 1,
+        currentPage: 1,
+      })
+      expect(response.body.items).toHaveLength(1)
+      expect(response.body.items[0]).toEqual(expect.objectContaining({
+        key: 'semantic-ui',
+        name: 'Semantic UI',
+        description: '<p>I am description</p>',
+      }))
+    })
+  })
 })
