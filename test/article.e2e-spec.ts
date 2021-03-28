@@ -108,7 +108,7 @@ describe('Article Module Integration', () => {
         .send(requestBody)
 
       expect(response.status).toBe(422)
-      expect(response.body).toHaveProperty('tag', ['not-exist is not exists.'])
+      expect(response.body).toHaveProperty('tags', ['not-exist is not exists.'])
     })
   })
 

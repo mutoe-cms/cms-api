@@ -22,7 +22,7 @@ export class ArticleService {
     const tagEntities = await this.tagRepository.find({ where: { key: In(createArticleDto.tags) } })
     const differenceTags = xor(tagEntities.map(entity => entity.key), createArticleDto.tags)
     if (differenceTags.length) {
-      throw new FormException({ tag: differenceTags.map(tag => `${tag} is not exists.`) })
+      throw new FormException({ tags: differenceTags.map(tag => `${tag} is not exists.`) })
     }
     const articleEntity = this.articleRepository.create({
       ...createArticleDto,
