@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { xor } from 'lodash'
 import { ArticleEntity } from 'src/article/article.entity'
@@ -34,5 +34,11 @@ export class ArticleService {
 
   async retrieveArticles (options: PaginationOptions): Promise<PaginationRo<ArticleEntity>> {
     return await paginate(this.repository, options)
+  }
+
+  async retrieveArticle (id: number): Promise<ArticleEntity> {
+    const articleEntity = await this.repository.findOne(id)
+    if (!articleEntity) throw new NotFoundException()
+    return articleEntity
   }
 }

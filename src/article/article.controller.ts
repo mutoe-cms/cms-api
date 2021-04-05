@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common'
-import { ApiCreatedResponse, ApiOperation, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger'
+import { Body, Controller, Get, Param, Post, Query, Request } from '@nestjs/common'
+import {
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger'
 import { ArticleEntity } from 'src/article/article.entity'
 import { ArticleService } from 'src/article/article.service'
 import { ArticlesRo } from 'src/article/dto/articles.ro'
@@ -38,5 +46,14 @@ export class ArticleController {
       @Query('limit') limit: number,
   ): Promise<PaginationRo<ArticleEntity>> {
     return await this.service.retrieveArticles({ page, limit })
+  }
+
+  @Get('/:articleId')
+  @ApiOperation({ operationId: 'retrieveArticle', summary: 'Retrieve article by article id' })
+  @ApiParam({ name: 'articleId', type: Number, example: '1' })
+  @ApiOkResponse({ type: ArticleEntity })
+  @ApiNotFoundResponse()
+  async retrieveArticle (@Param('articleId') articleId: string): Promise<ArticleEntity> {
+    return await this.service.retrieveArticle(+articleId)
   }
 }

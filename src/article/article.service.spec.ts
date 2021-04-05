@@ -1,6 +1,8 @@
+import { NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { ArticleEntity } from 'src/article/article.entity'
+import { articleFixture } from 'src/article/article.fixture'
 import { ArticleService } from 'src/article/article.service'
 import { ArticlesRo } from 'src/article/dto/articles.ro'
 import { FormException } from 'src/exception'
@@ -22,6 +24,7 @@ describe('Article Service', () => {
           useValue: {
             create: jest.fn(),
             save: jest.fn(),
+            findOne: jest.fn(),
             findAndCount: jest.fn(),
           },
         },
@@ -84,6 +87,22 @@ describe('Article Service', () => {
         },
       } as ArticlesRo)
       expect(repository.findAndCount).toBeCalledWith({ order: { createdAt: 'DESC' }, skip: 0, take: 10 })
+    })
+  })
+
+  describe('find one article', () => {
+    it('should return article entity when article is exist', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
+      const articleEntity = await service.retrieveArticle(articleFixture.entity.id)
+
+      expect(articleEntity).toEqual(articleFixture.entity)
+      expect(repository.findOne).toBeCalledWith(articleFixture.entity.id)
+    })
+
+    it('should throw NotFound error when article is not exist', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
+
+      await expect(service.retrieveArticle(articleFixture.entity.id)).rejects.toThrow(NotFoundException)
     })
   })
 })

@@ -138,4 +138,20 @@ describe('Article Module Integration', () => {
       expect(response.body.items[0].user).not.toHaveProperty('password')
     })
   })
+
+  describe('/article/:id (GET)', () => {
+    it('should return 200 when retrieve article by article id', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/article/1')
+
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(expect.objectContaining({
+        title: 'title',
+        content: '<p>I am content</p>',
+        user: expect.objectContaining({
+          username: 'admin',
+        }),
+      }))
+    })
+  })
 })

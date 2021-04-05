@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { TagsRo } from 'src/tag/dto/tags.ro'
+import { tagFixture } from 'src/tag/tag.fixture'
 import { Repository } from 'typeorm'
-import { tagFixture } from './dto/fixture/tagFixture'
 import { TagEntity } from './tag.entity'
 import { TagService } from './tag.service'
 
