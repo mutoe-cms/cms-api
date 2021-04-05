@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, Request } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Put, Query, Request } from '@nestjs/common'
 import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -26,14 +26,15 @@ export class ArticleController {
     private readonly userService: UserService,
   ) {}
 
-  @UseJwtGuards()
   @Post('/')
+  @UseJwtGuards()
   @ApiOperation({ operationId: 'createArticle', summary: 'Create article' })
   @ApiCreatedResponse({ type: ArticleEntity })
   @ApiUnprocessableEntityResponse()
   async createArticle (
     @Request() { user }: AuthRequest,
-      @Body() createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
+      @Body() createArticleDto: CreateArticleDto,
+  ): Promise<ArticleEntity> {
     const userEntity = await this.userService.findUser({ id: user.userId })
     return await this.service.createArticle(userEntity, createArticleDto)
   }
@@ -55,5 +56,20 @@ export class ArticleController {
   @ApiNotFoundResponse()
   async retrieveArticle (@Param('articleId') articleId: string): Promise<ArticleEntity> {
     return await this.service.retrieveArticle(+articleId)
+  }
+
+  @Put('/:articleId')
+  @UseJwtGuards()
+  @ApiOperation({ operationId: 'updateArticle', summary: 'Update article' })
+  @ApiParam({ name: 'articleId', type: Number, example: '1' })
+  @ApiOkResponse({ type: ArticleEntity })
+  @ApiNotFoundResponse()
+  @ApiUnprocessableEntityResponse()
+  async updateArticle (
+    @Param('articleId') articleId: string,
+      @Request() { user }: AuthRequest,
+      @Body() createArticleDto: CreateArticleDto,
+  ): Promise<ArticleEntity> {
+    return await this.service.updateArticle(+articleId, createArticleDto, user.userId)
   }
 }

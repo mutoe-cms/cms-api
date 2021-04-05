@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from 'src/app/app.controller'
+import { ArticleEntity } from 'src/article/article.entity'
 import { ArticleModule } from 'src/article/article.module'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { AuthModule } from 'src/auth/auth.module'
@@ -60,12 +61,12 @@ describe('Article Module Integration', () => {
         content: '<p>I am content</p>',
         createdAt: '2017-11-25T12:34:56.000Z',
         updatedAt: '2017-11-25T12:34:56.000Z',
-        user: expect.objectContaining({
+        author: expect.objectContaining({
           id: 1,
           username: 'admin',
         }),
-      })
-      expect(response.body.user).not.toHaveProperty('password')
+      } as ArticleEntity)
+      expect(response.body.author).not.toHaveProperty('password')
     })
 
     it('should return 401 when create article with invalid token', async () => {
@@ -129,13 +130,13 @@ describe('Article Module Integration', () => {
         id: 1,
         title: 'title',
         content: '<p>I am content</p>',
-        user: expect.objectContaining({
+        author: expect.objectContaining({
           id: 1,
           username: 'admin',
           email: 'admin@cms.mutoe.com',
         }),
-      }))
-      expect(response.body.items[0].user).not.toHaveProperty('password')
+      } as ArticleEntity))
+      expect(response.body.items[0].author).not.toHaveProperty('password')
     })
   })
 
@@ -148,10 +149,40 @@ describe('Article Module Integration', () => {
       expect(response.body).toEqual(expect.objectContaining({
         title: 'title',
         content: '<p>I am content</p>',
-        user: expect.objectContaining({
+        author: expect.objectContaining({
           username: 'admin',
         }),
+      } as ArticleEntity))
+    })
+  })
+
+  describe('/article/:id (PUT)', () => {
+    it('should return 200 when submit an valid form', async () => {
+      const requestBody: CreateArticleDto = {
+        title: 'title',
+        content: '<p>I am content</p>',
+      }
+      const response = await request(app.getHttpServer())
+        .put('/article/1')
+        .auth(token, { type: 'bearer' })
+        .send(requestBody)
+
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(expect.objectContaining({
+        title: 'title',
       }))
+    })
+
+    it('should return 401 when submit a valid form without login', async () => {
+      const requestBody: CreateArticleDto = {
+        title: 'title',
+        content: '<p>I am content</p>',
+      }
+      const response = await request(app.getHttpServer())
+        .put('/article/1')
+        .send(requestBody)
+
+      expect(response.status).toBe(401)
     })
   })
 })

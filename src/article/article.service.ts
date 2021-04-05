@@ -28,7 +28,7 @@ export class ArticleService {
       ...createArticleDto,
       tags: tagEntities,
     })
-    articleEntity.user = user
+    articleEntity.author = user
     return await this.repository.save(articleEntity)
   }
 
@@ -40,5 +40,25 @@ export class ArticleService {
     const articleEntity = await this.repository.findOne(id)
     if (!articleEntity) throw new NotFoundException()
     return articleEntity
+  }
+
+  async updateArticle (id: number, createArticleDto: CreateArticleDto, userId: number): Promise<ArticleEntity> {
+    const [tagEntities, articleEntity] = await Promise.all([
+      this.tagRepository.find({ where: { key: In(createArticleDto.tags) } }),
+      this.repository.findOne(id),
+    ])
+    if (!articleEntity) {
+      throw new NotFoundException()
+    }
+    const differenceTags = xor(tagEntities.map(entity => entity.key), createArticleDto.tags)
+    if (differenceTags.length) {
+      throw new FormException({ tags: differenceTags.map(tag => `${tag} is not exists.`) })
+    }
+    this.repository.merge(articleEntity, {
+      ...createArticleDto,
+      tags: tagEntities,
+      author: { id: userId },
+    })
+    return await this.repository.save(articleEntity)
   }
 }

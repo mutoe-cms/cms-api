@@ -5,7 +5,7 @@ import { DeepPartial } from 'typeorm/common/DeepPartial'
 export const generateArticle = (): DeepPartial<ArticleEntity> => ({
   title: Random.title(),
   content: Random.paragraph(),
-  user: { id: 1 },
+  author: { id: 1 },
 })
 
 export const generateArticles = (count = 1): DeepPartial<ArticleEntity>[] => {
