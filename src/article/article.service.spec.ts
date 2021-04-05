@@ -9,11 +9,13 @@ import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { FormException } from 'src/exception'
 import { TagEntity } from 'src/tag/tag.entity'
 import { tagFixture } from 'src/tag/tag.fixture'
-import { UserSafeEntity } from 'src/user/user.entity'
+import { UserEntity } from 'src/user/user.entity'
+import { UserService } from 'src/user/user.service'
 import { Repository } from 'typeorm'
 
 describe('Article Service', () => {
   let service: ArticleService
+  let userService: UserService
   let repository: Repository<ArticleEntity>
   let tagRepository: Repository<TagEntity>
 
@@ -27,6 +29,7 @@ describe('Article Service', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArticleService,
+        UserService,
         {
           provide: getRepositoryToken(ArticleEntity),
           useValue: {
@@ -43,16 +46,24 @@ describe('Article Service', () => {
             find: jest.fn(),
           },
         },
+        {
+          provide: getRepositoryToken(UserEntity),
+          useValue: {
+            findOne: jest.fn(),
+          },
+        },
       ],
     }).compile()
 
     service = module.get(ArticleService)
+    userService = module.get(UserService)
     repository = module.get(getRepositoryToken(ArticleEntity))
     tagRepository = module.get(getRepositoryToken(TagEntity))
   })
 
   it('should be defined', () => {
     expect(service).toBeDefined()
+    expect(userService).toBeDefined()
     expect(repository).toBeDefined()
     expect(tagRepository).toBeDefined()
   })

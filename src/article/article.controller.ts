@@ -15,7 +15,6 @@ import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { AuthRequest } from 'src/auth/jwt.strategy'
 import { ApiListResponse } from 'src/decorators'
 import { UseJwtGuards } from 'src/guards'
-import { UserService } from 'src/user/user.service'
 import { PaginationRo } from 'src/utils/paginate'
 
 @Controller('article')
@@ -23,7 +22,6 @@ import { PaginationRo } from 'src/utils/paginate'
 export class ArticleController {
   constructor (
     private readonly service: ArticleService,
-    private readonly userService: UserService,
   ) {}
 
   @Post('/')
@@ -35,8 +33,7 @@ export class ArticleController {
     @Request() { user }: AuthRequest,
       @Body() createArticleDto: CreateArticleDto,
   ): Promise<ArticleEntity> {
-    const userEntity = await this.userService.findUser({ id: user.userId })
-    return await this.service.createArticle(userEntity, createArticleDto)
+    return await this.service.createArticle(+user.userId, createArticleDto)
   }
 
   @Get('/')
