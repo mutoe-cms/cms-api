@@ -86,7 +86,7 @@ describe('AuthService', () => {
     it('should return user info without password when validate successful', async () => {
       const email = 'foo@bar.com'
       const password = cryptoPassword('12345678')
-      jest.spyOn(userService, 'findUser').mockResolvedValue({ email, password } as UserSafeEntity)
+      jest.spyOn(userService, 'findUser').mockResolvedValue({ email, password } as UserEntity)
       const user = await authService.validateUser(email, '12345678')
 
       expect(user).toHaveProperty('email', email)
@@ -103,7 +103,7 @@ describe('AuthService', () => {
     it('should throw bad request exception when invalid password', async () => {
       // noinspection SpellCheckingInspection
       const password = '4a83854cf6f0112b4295bddd535a9b3fbe54a3f90e853b59d42e4bed553c55a4'
-      jest.spyOn(userService, 'findUser').mockResolvedValue({ email: 'foo@bar.com', password } as UserSafeEntity)
+      jest.spyOn(userService, 'findUser').mockResolvedValue({ email: 'foo@bar.com', password } as UserEntity)
 
       const validateUser = authService.validateUser('foo@bar.com', 'invalidPassword')
       await expect(validateUser).rejects.toThrow(new FormException({ password: ['isInvalid'] }))

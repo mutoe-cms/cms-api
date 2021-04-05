@@ -13,8 +13,7 @@ import {
 
 const nullable = true
 
-@Entity('user')
-export class UserEntity {
+export class UserSafeEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({ example: 1 })
   id: number
@@ -27,22 +26,12 @@ export class UserEntity {
   @ApiProperty({ example: 'mutoe' })
   username: string
 
-  @Column({ length: 64, select: false })
-  @Exclude()
-  password: string
-
-  @BeforeUpdate()
-  @BeforeInsert()
-  hashPassword (): void {
-    this.password = cryptoPassword(this.password)
-  }
-
   @Column({ nullable, type: 'text' })
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'This guy is lazy and has left nothing.' })
   bio?: string
 
   @Column({ nullable, type: 'text' })
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'https://imgur.com/200' })
   image?: string
 
   @CreateDateColumn()
@@ -54,4 +43,15 @@ export class UserEntity {
   updatedAt: string
 }
 
-export type UserSafeEntity = Omit<UserEntity, 'password'> & { password?: never }
+@Entity('user')
+export class UserEntity extends UserSafeEntity {
+  @Column({ length: 64, select: false })
+  @Exclude()
+  password: string
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  hashPassword (): void {
+    this.password = cryptoPassword(this.password)
+  }
+}
