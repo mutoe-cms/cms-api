@@ -136,6 +136,7 @@ describe('Article Module Integration', () => {
           email: 'admin@cms.mutoe.com',
         }),
       } as ArticleEntity))
+      expect(response.body.items[0]).toHaveProperty('tags')
       expect(response.body.items[0].author).not.toHaveProperty('password')
     })
   })

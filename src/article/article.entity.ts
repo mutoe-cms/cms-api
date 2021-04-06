@@ -28,9 +28,9 @@ export class ArticleEntity {
   @ApiProperty({ example: 'Lorem ipsum' })
   title: string
 
-  @ManyToMany(() => TagEntity)
+  @ManyToMany(() => TagEntity, { eager: true })
   @JoinTable()
-  @ApiProperty({ example: '["semantic-ui"]' })
+  @ApiProperty({ type: TagEntity, isArray: true, description: 'Article tags' })
   tags: TagEntity[]
 
   @Column({ type: 'text', nullable })
