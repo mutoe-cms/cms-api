@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { ApiPropertyDatetime } from 'src/decorators'
 
 export class ProfileRo {
   @ApiProperty({ example: 1 })
@@ -10,13 +11,13 @@ export class ProfileRo {
   @ApiProperty({ example: 'foo' })
   username: string
 
-  @ApiProperty({ example: '2020-08-16T00:04:59.343Z' })
+  @ApiPropertyDatetime()
   createdAt: string
 
-  @ApiProperty({ example: '2020-08-16T00:04:59.343Z' })
+  @ApiPropertyDatetime()
   updatedAt: string
 
-  @ApiPropertyOptional({ example: null })
+  @ApiPropertyOptional({ example: 'This guy is lazy and has left nothing.' })
   bio?: string
 
   @ApiPropertyOptional({ example: 'https://picsum.photos/200' })

@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
+import { ApiPropertyDatetime } from 'src/decorators'
 import { cryptoPassword } from 'src/utils/cryptoPassword'
 import {
   BeforeInsert,
@@ -35,11 +36,11 @@ export class UserSafeEntity {
   image?: string
 
   @CreateDateColumn()
-  @ApiProperty({ example: '2020-08-16T00:04:59.343Z' })
+  @ApiPropertyDatetime()
   createdAt: string
 
   @UpdateDateColumn()
-  @ApiProperty({ example: '2020-08-16T00:04:59.343Z' })
+  @ApiPropertyDatetime()
   updatedAt: string
 }
 

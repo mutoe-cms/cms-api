@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ApiPropertyRichText } from 'src/decorators'
+import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
 import { TagEntity } from 'src/tag/tag.entity'
 import { UserEntity, UserSafeEntity } from 'src/user/user.entity'
 import {
@@ -39,10 +39,10 @@ export class ArticleEntity {
   content?: string
 
   @CreateDateColumn()
-  @ApiProperty({ example: '2020-08-16T00:04:59.343Z' })
+  @ApiPropertyDatetime()
   createdAt: string
 
   @UpdateDateColumn()
-  @ApiProperty({ example: '2020-08-16T00:04:59.343Z' })
+  @ApiPropertyDatetime()
   updatedAt: string
 }

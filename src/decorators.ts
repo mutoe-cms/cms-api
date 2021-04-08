@@ -1,4 +1,4 @@
-import { ApiOkResponse, ApiQuery, ApiResponseMetadata } from '@nestjs/swagger'
+import { ApiOkResponse, ApiPropertyOptions, ApiQuery, ApiResponseMetadata } from '@nestjs/swagger'
 import { createApiPropertyDecorator } from '@nestjs/swagger/dist/decorators/api-property.decorator'
 
 export function ApiListResponse (type: ApiResponseMetadata['type']): MethodDecorator {
@@ -12,8 +12,14 @@ export function ApiListResponse (type: ApiResponseMetadata['type']): MethodDecor
   }
 }
 
-export const ApiPropertyRichText = () => createApiPropertyDecorator({
+export const ApiPropertyRichText = (options?: ApiPropertyOptions) => createApiPropertyDecorator({
   required: false,
   description: 'HTML content',
   example: '<p>Hello <strong>Mutoe CMS</strong></p>',
+  ...options,
+})
+
+export const ApiPropertyDatetime = (options?: ApiPropertyOptions) => createApiPropertyDecorator({
+  example: '2020-08-16T00:04:59.343Z',
+  ...options,
 })
