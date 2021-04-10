@@ -6,6 +6,8 @@ import { articleFixture } from 'src/article/article.fixture'
 import { ArticleService } from 'src/article/article.service'
 import { ArticlesRo } from 'src/article/dto/articles.ro'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
+import { CategoryEntity } from 'src/category/category.entity'
+import { CategoryService } from 'src/category/category.service'
 import { FormException } from 'src/exception'
 import { TagEntity } from 'src/tag/tag.entity'
 import { tagFixture } from 'src/tag/tag.fixture'
@@ -16,6 +18,7 @@ import { Repository } from 'typeorm'
 describe('Article Service', () => {
   let service: ArticleService
   let userService: UserService
+  let categoryService: CategoryService
   let repository: Repository<ArticleEntity>
   let tagRepository: Repository<TagEntity>
 
@@ -30,6 +33,7 @@ describe('Article Service', () => {
       providers: [
         ArticleService,
         UserService,
+        CategoryService,
         {
           provide: getRepositoryToken(ArticleEntity),
           useValue: {
@@ -52,11 +56,16 @@ describe('Article Service', () => {
             findOne: jest.fn(),
           },
         },
+        {
+          provide: getRepositoryToken(CategoryEntity),
+          useValue: {},
+        },
       ],
     }).compile()
 
     service = module.get(ArticleService)
     userService = module.get(UserService)
+    categoryService = module.get(CategoryService)
     repository = module.get(getRepositoryToken(ArticleEntity))
     tagRepository = module.get(getRepositoryToken(TagEntity))
   })
@@ -64,6 +73,7 @@ describe('Article Service', () => {
   it('should be defined', () => {
     expect(service).toBeDefined()
     expect(userService).toBeDefined()
+    expect(categoryService).toBeDefined()
     expect(repository).toBeDefined()
     expect(tagRepository).toBeDefined()
   })
@@ -85,6 +95,15 @@ describe('Article Service', () => {
       await expect(
         service.createArticle(1, articleFixture.dto),
       ).rejects.toThrowError(FormException)
+    })
+
+    it('should throw error given not existed categoryId', async () => {
+      jest.spyOn(tagRepository, 'find').mockResolvedValue([tagFixture.entity])
+      jest.spyOn(repository, 'create').mockReturnValue(articleFixture.entity)
+      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(undefined)
+
+      await expect(service.createArticle(articleFixture.entity.id, { ...createArticleDto, categoryId: 999 }))
+        .rejects.toThrow(FormException)
     })
   })
 

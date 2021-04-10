@@ -35,9 +35,13 @@ export class CategoryService {
     return await this.repository.find({ parent: IsNull() })
   }
 
-  async retrieveCategory (categoryId: number) {
+  async getCategory (categoryId: number): Promise<CategoryEntity> {
     const categoryEntity = await this.repository.findOne(categoryId)
     if (!categoryEntity) throw new NotFoundException()
     return categoryEntity
+  }
+
+  async findCategory (categoryId: number): Promise<CategoryEntity | undefined> {
+    return await this.repository.findOne(categoryId)
   }
 }

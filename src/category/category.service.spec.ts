@@ -86,11 +86,11 @@ describe('CategoryService', () => {
     })
   })
 
-  describe('retrieve one category', () => {
+  describe('getCategory', () => {
     it('should return category given a valid category id', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(categoryFixture.entity)
 
-      const categoryEntity = await service.retrieveCategory(1)
+      const categoryEntity = await service.getCategory(1)
 
       expect(categoryEntity).toEqual(categoryFixture.entity)
     })
@@ -99,8 +99,26 @@ describe('CategoryService', () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
 
       await expect(
-        service.retrieveCategory(1),
+        service.getCategory(1),
       ).rejects.toThrow(NotFoundException)
+    })
+  })
+
+  describe('findCategory', () => {
+    it('should return category given a valid category id', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(categoryFixture.entity)
+
+      const categoryEntity = await service.findCategory(1)
+
+      expect(categoryEntity).toEqual(categoryFixture.entity)
+    })
+
+    it('should return null given a not existed category id', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
+
+      const result = await service.findCategory(1)
+
+      expect(result).toBeUndefined()
     })
   })
 })

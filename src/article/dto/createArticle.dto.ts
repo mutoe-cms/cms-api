@@ -7,6 +7,9 @@ export class CreateArticleDto {
   @ApiProperty({ example: 'Lorem ipsum' })
   readonly title: string
 
+  @ApiPropertyOptional({ example: 1 })
+  readonly categoryId?: number
+
   @ApiPropertyOptional({ example: ['semantic-ui', 'material-ui'] })
   readonly tags?: string[] = []
 

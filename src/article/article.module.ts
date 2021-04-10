@@ -2,17 +2,18 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ArticleController } from 'src/article/article.controller'
 import { ArticleEntity } from 'src/article/article.entity'
+import { CategoryEntity } from 'src/category/category.entity'
+import { CategoryService } from 'src/category/category.service'
 import { TagEntity } from 'src/tag/tag.entity'
 import { UserEntity } from 'src/user/user.entity'
-import { UserModule } from 'src/user/user.module'
+import { UserService } from 'src/user/user.service'
 import { ArticleService } from './article.service'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ArticleEntity, UserEntity, TagEntity]),
-    UserModule,
+    TypeOrmModule.forFeature([ArticleEntity, UserEntity, TagEntity, CategoryEntity]),
   ],
-  providers: [ArticleService],
+  providers: [ArticleService, CategoryService, UserService],
   controllers: [ArticleController],
 })
 export class ArticleModule {}

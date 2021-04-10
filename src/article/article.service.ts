@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { xor } from 'lodash'
 import { ArticleEntity } from 'src/article/article.entity'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
+import { CategoryService } from 'src/category/category.service'
 import { FormException } from 'src/exception'
 import { TagEntity } from 'src/tag/tag.entity'
 import { UserService } from 'src/user/user.service'
@@ -14,22 +15,36 @@ export class ArticleService {
   constructor (
     @InjectRepository(ArticleEntity)
     private readonly repository: Repository<ArticleEntity>,
+    // TODO: NOT call other module's repository directly, using service call instead.
     @InjectRepository(TagEntity)
     private readonly tagRepository: Repository<TagEntity>,
     private readonly userService: UserService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   async createArticle (userId: number, createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
-    const tagEntities = await this.tagRepository.find({ where: { key: In(createArticleDto.tags) } })
-    const differenceTags = xor(tagEntities.map(entity => entity.key), createArticleDto.tags)
+    const { categoryId, tags, ...dto } = createArticleDto
+
+    // TODO: skip find tags when not passed tags argument
+    const tagEntities = await this.tagRepository.find({ where: { key: In(tags) } })
+    const differenceTags = xor(tagEntities.map(entity => entity.key), tags)
     if (differenceTags.length) {
       throw new FormException({ tags: differenceTags.map(tag => `${tag} is not exists.`) })
     }
     const articleEntity = this.repository.create({
-      ...createArticleDto,
+      ...dto,
       tags: tagEntities,
       author: await this.userService.findUser({ id: userId }),
     })
+
+    if (categoryId) {
+      const categoryEntity = await this.categoryService.findCategory(categoryId)
+      if (!categoryEntity) {
+        throw new FormException({ categoryId: ['isNotExist'] })
+      }
+      articleEntity.category = categoryEntity
+    }
+
     return await this.repository.save(articleEntity)
   }
 

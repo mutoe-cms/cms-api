@@ -43,6 +43,6 @@ export class CategoryController {
   @ApiOkResponse({ type: CategoryEntity })
   @ApiNotFoundResponse()
   async retrieveCategory (@Param('categoryId') categoryId: number): Promise<CategoryEntity> {
-    return await this.service.retrieveCategory(categoryId)
+    return await this.service.getCategory(categoryId)
   }
 }
