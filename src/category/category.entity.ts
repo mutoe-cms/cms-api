@@ -1,24 +1,32 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { ApiPropertyRichText } from 'src/decorators'
-import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  Tree,
+  TreeChildren,
+  TreeParent,
+  UpdateDateColumn,
+} from 'typeorm'
 
 @Entity('category')
+@Tree('closure-table')
 export class CategoryEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({ example: 1 })
   id: number
 
-  @ManyToOne(_type => CategoryEntity, category => category.children)
-  @JoinTable()
+  @TreeParent()
   @ApiPropertyOptional({ type: CategoryEntity, description: 'Category parent' })
   parent?: CategoryEntity
 
-  @OneToMany(_type => CategoryEntity, category => category.parent)
-  @JoinTable()
+  @TreeChildren()
   @ApiProperty({ type: CategoryEntity, isArray: true, description: 'Category children' })
   children: CategoryEntity[]
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', unique: true })
   @ApiProperty({ example: 'study-notes' })
   key: string
 
@@ -29,4 +37,12 @@ export class CategoryEntity {
   @Column({ type: 'text' })
   @ApiPropertyRichText()
   description?: string
+
+  @CreateDateColumn()
+  @ApiPropertyDatetime()
+  createdAt: string
+
+  @UpdateDateColumn()
+  @ApiPropertyDatetime()
+  updatedAt: string
 }

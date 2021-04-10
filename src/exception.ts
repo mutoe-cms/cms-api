@@ -17,23 +17,12 @@ export class FormExceptionBody implements Record<string, FormExceptionKey[]> {
 export const ApiInvalidFormResponse = () => {
   const schema: SchemaObject = {
     title: 'UnprocessableEntityResponse',
-    required: ['[field: string]'],
-    properties: {
-      '[field: string]': {
-        type: 'string[]',
-        enum: [
-          'isNotEmpty',
-          'isExist',
-          'isNotExist',
-          'isInvalid',
-        ] as FormExceptionKey[],
-      },
-    },
     example: {
       username: ['isInvalid', 'isExist'],
       password: ['isNotEmpty'],
     } as FormExceptionBody,
   }
+
   return ApiUnprocessableEntityResponse({ schema })
 }
 

@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { CategoryEntity } from 'src/category/category.entity'
 import { categoryFixture } from 'src/category/category.fixture'
+import { FormException } from 'src/exception'
 import { Repository } from 'typeorm'
 import { CategoryService } from './category.service'
 
@@ -19,6 +20,8 @@ describe('CategoryService', () => {
           useValue: {
             find: jest.fn(),
             findOne: jest.fn(),
+            create: jest.fn(),
+            save: jest.fn(),
           },
         },
       ],
@@ -31,6 +34,46 @@ describe('CategoryService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined()
     expect(repository).toBeDefined()
+  })
+
+  describe('create category', () => {
+    it('should return created category given a valid create category form', async () => {
+      jest.spyOn(repository, 'create').mockReturnValueOnce(categoryFixture.entity)
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null)
+
+      await service.createCategory(categoryFixture.dto)
+
+      expect(repository.save).toBeCalledWith(categoryFixture.entity)
+    })
+
+    it('should return created category given a valid form and existed parent category id', async () => {
+      jest.spyOn(repository, 'create').mockReturnValueOnce(categoryFixture.entity)
+      jest.spyOn(repository, 'findOne')
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(categoryFixture.entity)
+
+      await service.createCategory({ ...categoryFixture.dto, parentId: 1 })
+
+      expect(repository.save).toBeCalledWith(expect.objectContaining({
+        ...categoryFixture.entity,
+        parent: { id: 1 },
+      }))
+    })
+
+    it('should throw category key exist error given existed category key', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(categoryFixture.entity)
+
+      await expect(service.createCategory(categoryFixture.dto))
+        .rejects.toThrow(FormException)
+    })
+
+    it('should throw parent category not found error given not existed parent category id', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
+      jest.spyOn(repository, 'create').mockReturnValueOnce(categoryFixture.entity)
+
+      await expect(service.createCategory({ ...categoryFixture.dto, parentId: 10 }))
+        .rejects.toThrow(FormException)
+    })
   })
 
   describe('retrieve root categories', () => {
