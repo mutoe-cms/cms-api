@@ -7,6 +7,7 @@ import { ArticleModule } from 'src/article/article.module'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { AuthModule } from 'src/auth/auth.module'
 import { validationPipe } from 'src/pipes'
+import { TagModule } from 'src/tag/tag.module'
 import { UserModule } from 'src/user/user.module'
 import * as request from 'supertest'
 import { getToken, mockDate } from 'test/testUtils'
@@ -23,6 +24,7 @@ describe('Article Module Integration', () => {
         ArticleModule,
         AuthModule,
         UserModule,
+        TagModule,
       ],
       controllers: [AppController],
     }).compile()
@@ -57,7 +59,6 @@ describe('Article Module Integration', () => {
       expect(response.body).toEqual({
         id: 1,
         title: 'title',
-        tags: [],
         content: '<p>I am content</p>',
         createdAt: '2017-11-25T12:34:56.000Z',
         updatedAt: '2017-11-25T12:34:56.000Z',

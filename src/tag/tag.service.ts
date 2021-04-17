@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { xor } from 'lodash'
+import { FormException } from 'src/exception'
 import { CreateTagDto } from 'src/tag/dto/createTag.dto'
 import { TagEntity } from 'src/tag/tag.entity'
 import { paginate, PaginationOptions } from 'src/utils/paginate'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
 
 @Injectable()
 export class TagService {
@@ -18,5 +20,14 @@ export class TagService {
 
   async retrieveTags (options: PaginationOptions) {
     return await paginate(this.repository, options)
+  }
+
+  async getTags (tags: string[]): Promise<TagEntity[]> {
+    const tagEntities = await this.repository.find({ where: { key: In(tags) } })
+    const differenceTags = xor(tagEntities.map(entity => entity.key), tags)
+    if (differenceTags.length) {
+      throw new FormException({ tags: differenceTags.map(tag => `${tag} is not exists.`) })
+    }
+    return tagEntities
   }
 }

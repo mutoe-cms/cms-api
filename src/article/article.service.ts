@@ -1,23 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { xor } from 'lodash'
 import { ArticleEntity } from 'src/article/article.entity'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { CategoryService } from 'src/category/category.service'
 import { FormException } from 'src/exception'
-import { TagEntity } from 'src/tag/tag.entity'
+import { TagService } from 'src/tag/tag.service'
 import { UserService } from 'src/user/user.service'
 import { paginate, PaginationOptions, PaginationRo } from 'src/utils/paginate'
-import { In, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class ArticleService {
   constructor (
     @InjectRepository(ArticleEntity)
     private readonly repository: Repository<ArticleEntity>,
-    // TODO: NOT call other module's repository directly, using service call instead.
-    @InjectRepository(TagEntity)
-    private readonly tagRepository: Repository<TagEntity>,
+    private readonly tagService: TagService,
     private readonly userService: UserService,
     private readonly categoryService: CategoryService,
   ) {}
@@ -25,17 +22,15 @@ export class ArticleService {
   async createArticle (userId: number, createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
     const { categoryId, tags, ...dto } = createArticleDto
 
-    // TODO: skip find tags when not passed tags argument
-    const tagEntities = await this.tagRepository.find({ where: { key: In(tags) } })
-    const differenceTags = xor(tagEntities.map(entity => entity.key), tags)
-    if (differenceTags.length) {
-      throw new FormException({ tags: differenceTags.map(tag => `${tag} is not exists.`) })
-    }
     const articleEntity = this.repository.create({
       ...dto,
-      tags: tagEntities,
+      // TODO: skip find user
       author: await this.userService.findUser({ id: userId }),
     })
+
+    if (tags.length) {
+      articleEntity.tags = await this.tagService.getTags(tags)
+    }
 
     if (categoryId) {
       const categoryEntity = await this.categoryService.findCategory(categoryId)
@@ -59,19 +54,19 @@ export class ArticleService {
   }
 
   async updateArticle (id: number, createArticleDto: CreateArticleDto, userId: number): Promise<ArticleEntity> {
+    const { tags, ...dto } = createArticleDto
     const [tagEntities, articleEntity] = await Promise.all([
-      this.tagRepository.find({ where: { key: In(createArticleDto.tags) } }),
+      this.tagService.getTags(tags),
       this.repository.findOne(id),
     ])
     if (!articleEntity) {
       throw new NotFoundException()
     }
-    const differenceTags = xor(tagEntities.map(entity => entity.key), createArticleDto.tags)
-    if (differenceTags.length) {
-      throw new FormException({ tags: differenceTags.map(tag => `${tag} is not exists.`) })
-    }
+
+    // TODO: update category
+
     this.repository.merge(articleEntity, {
-      ...createArticleDto,
+      ...dto,
       tags: tagEntities,
       author: { id: userId },
     })
