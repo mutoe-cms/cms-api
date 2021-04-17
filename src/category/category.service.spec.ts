@@ -1,4 +1,3 @@
-import { NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { CategoryEntity } from 'src/category/category.entity'
@@ -83,24 +82,6 @@ describe('CategoryService', () => {
       const categoryEntities = await service.retrieveRootCategories()
 
       expect(categoryEntities).toEqual([categoryFixture.entity])
-    })
-  })
-
-  describe('getCategory', () => {
-    it('should return category given a valid category id', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(categoryFixture.entity)
-
-      const categoryEntity = await service.getCategory(1)
-
-      expect(categoryEntity).toEqual(categoryFixture.entity)
-    })
-
-    it('should throw NotFound error given a not existed category id', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
-
-      await expect(
-        service.getCategory(1),
-      ).rejects.toThrow(NotFoundException)
     })
   })
 

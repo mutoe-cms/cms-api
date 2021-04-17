@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common'
 import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -43,6 +43,8 @@ export class CategoryController {
   @ApiOkResponse({ type: CategoryEntity })
   @ApiNotFoundResponse()
   async retrieveCategory (@Param('categoryId') categoryId: number): Promise<CategoryEntity> {
-    return await this.service.getCategory(categoryId)
+    const categoryEntity = await this.service.findCategory(categoryId)
+    if (!categoryEntity) throw new NotFoundException()
+    return categoryEntity
   }
 }
