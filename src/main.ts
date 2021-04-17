@@ -1,9 +1,12 @@
 import { Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
+import { config } from 'dotenv-flow'
 import { AppModule } from 'src/app/app.module'
 import { NEST_PORT, PROD, SWAGGER_ENABLE } from 'src/config'
 import { validationPipe } from 'src/pipes'
 import { createSwagger } from 'src/setup'
+
+config()
 
 async function bootstrap () {
   const app = await NestFactory.create(AppModule, {
