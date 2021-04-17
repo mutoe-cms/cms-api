@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { FormException } from 'src/exception'
 import { TagsRo } from 'src/tag/dto/tags.ro'
 import { tagFixture } from 'src/tag/tag.fixture'
 import { Repository } from 'typeorm'
@@ -18,6 +19,7 @@ describe('TagService', () => {
           provide: getRepositoryToken(TagEntity),
           useValue: {
             save: jest.fn(),
+            find: jest.fn(),
             findAndCount: jest.fn(),
           },
         },
@@ -30,6 +32,7 @@ describe('TagService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined()
+    expect(repository).toBeDefined()
   })
 
   describe('createTag', () => {
@@ -55,6 +58,23 @@ describe('TagService', () => {
         },
       } as TagsRo)
       expect(repository.findAndCount).toBeCalledWith({ order: { createdAt: 'DESC' }, skip: 0, take: 10 })
+    })
+  })
+
+  describe('getTags', () => {
+    it('should return tag entities given existing tag keys', async () => {
+      jest.spyOn(repository, 'find').mockResolvedValue([tagFixture.entity])
+
+      const result = await service.getTags(['semantic-ui'])
+
+      expect(result).toEqual([tagFixture.entity])
+    })
+
+    it('should throw exception given not existed tag key', async () => {
+      jest.spyOn(repository, 'find').mockResolvedValue([tagFixture.entity])
+
+      await expect(service.getTags(['semantic-ui', 'not-exist']))
+        .rejects.toThrow(FormException)
     })
   })
 })
