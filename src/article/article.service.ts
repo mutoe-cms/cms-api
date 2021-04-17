@@ -24,7 +24,6 @@ export class ArticleService {
 
     const articleEntity = this.repository.create({
       ...dto,
-      // TODO: skip find user
       author: await this.userService.findUser({ id: userId }),
     })
 

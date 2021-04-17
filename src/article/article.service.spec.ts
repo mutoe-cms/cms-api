@@ -7,6 +7,7 @@ import { ArticleService } from 'src/article/article.service'
 import { ArticlesRo } from 'src/article/dto/articles.ro'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { CategoryEntity } from 'src/category/category.entity'
+import { categoryFixture } from 'src/category/category.fixture'
 import { CategoryService } from 'src/category/category.service'
 import { FormException } from 'src/exception'
 import { TagEntity } from 'src/tag/tag.entity'
@@ -80,12 +81,14 @@ describe('Article Service', () => {
     expect(repository).toBeDefined()
   })
 
-  describe('create article', () => {
+  describe('createArticle', () => {
     it('should create article correctly', async function () {
       jest.spyOn(tagService, 'getTags').mockResolvedValue([tagFixture.entity])
+      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(categoryFixture.entity)
       jest.spyOn(repository, 'create').mockReturnValue(articleFixture.entity)
 
-      await service.createArticle(articleFixture.entity.id, createArticleDto)
+      const articleDto: CreateArticleDto = { ...createArticleDto, categoryId: 1 }
+      await service.createArticle(articleFixture.entity.id, articleDto)
 
       expect(repository.save).toBeCalledWith(articleFixture.entity)
     })
@@ -110,7 +113,7 @@ describe('Article Service', () => {
     })
   })
 
-  describe('find all articles', () => {
+  describe('retrieveArticles', () => {
     it('should find articles correctly', async function () {
       jest.spyOn(repository, 'findAndCount').mockResolvedValue([[], 0])
       const articlesRo = await service.retrieveArticles({ page: 1, limit: 10 })
@@ -128,7 +131,7 @@ describe('Article Service', () => {
     })
   })
 
-  describe('find one article', () => {
+  describe('retrieveArticle', () => {
     it('should return article entity when article is exist', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
 
@@ -146,7 +149,7 @@ describe('Article Service', () => {
     })
   })
 
-  describe('update one article', () => {
+  describe('updateArticle', () => {
     it('should return the article when submit a valid article with login', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
       jest.spyOn(repository, 'save').mockResolvedValue(articleFixture.entity)
