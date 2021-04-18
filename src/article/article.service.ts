@@ -27,7 +27,7 @@ export class ArticleService {
       author: await this.userService.findUser({ id: userId }),
     })
 
-    if (tags.length) {
+    if (tags?.length) {
       articleEntity.tags = await this.tagService.getTags(tags)
     }
 
@@ -55,7 +55,7 @@ export class ArticleService {
   async updateArticle (id: number, createArticleDto: CreateArticleDto, userId: number): Promise<ArticleEntity> {
     const { tags, ...dto } = createArticleDto
     const [tagEntities, articleEntity] = await Promise.all([
-      this.tagService.getTags(tags),
+      this.tagService.getTags(tags ?? []),
       this.repository.findOne(id),
     ])
     if (!articleEntity) {

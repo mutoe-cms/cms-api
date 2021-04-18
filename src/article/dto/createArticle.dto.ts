@@ -11,8 +11,8 @@ export class CreateArticleDto {
   readonly categoryId?: number
 
   @ApiPropertyOptional({ example: ['semantic-ui', 'material-ui'] })
-  readonly tags?: string[] = []
+  readonly tags?: string[]
 
   @ApiPropertyRichText()
-  readonly content?: string = ''
+  readonly content?: string
 }

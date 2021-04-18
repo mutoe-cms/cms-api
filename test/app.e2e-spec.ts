@@ -1,9 +1,10 @@
+import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { AppController } from 'src/app/app.controller'
 import * as request from 'supertest'
 
 describe('App Module Integration', () => {
-  let app
+  let app: INestApplication
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

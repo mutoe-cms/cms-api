@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "strictPropertyInitialization": false,
     "lib": ["ESNext"],
     "module": "commonjs",
     "declaration": false,
@@ -15,6 +17,7 @@
     "resolveJsonModule": true
   },
   "include": [
+    "types",
     "src",
     "migration",
     "seed",

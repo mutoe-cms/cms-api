@@ -15,6 +15,7 @@ export class UserController {
   @ApiOperation({ operationId: 'profile' })
   @ApiOkResponse({ type: ProfileRo })
   async profile (@Request() { user }: AuthRequest): Promise<ProfileRo> {
-    return await this.service.findUser({ id: user.userId })
+    const userSafeEntity = await this.service.findUser({ id: user.userId })
+    return userSafeEntity!
   }
 }

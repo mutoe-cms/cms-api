@@ -38,7 +38,7 @@ describe('CategoryService', () => {
   describe('create category', () => {
     it('should return created category given a valid create category form', async () => {
       jest.spyOn(repository, 'create').mockReturnValueOnce(categoryFixture.entity)
-      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null)
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(undefined)
 
       await service.createCategory(categoryFixture.dto)
 
@@ -48,7 +48,7 @@ describe('CategoryService', () => {
     it('should return created category given a valid form and existed parent category id', async () => {
       jest.spyOn(repository, 'create').mockReturnValueOnce(categoryFixture.entity)
       jest.spyOn(repository, 'findOne')
-        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(undefined)
         .mockResolvedValueOnce(categoryFixture.entity)
 
       await service.createCategory({ ...categoryFixture.dto, parentId: 1 })
@@ -67,7 +67,7 @@ describe('CategoryService', () => {
     })
 
     it('should throw parent category not found error given not existed parent category id', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
+      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
       jest.spyOn(repository, 'create').mockReturnValueOnce(categoryFixture.entity)
 
       await expect(service.createCategory({ ...categoryFixture.dto, parentId: 10 }))
