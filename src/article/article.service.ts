@@ -53,20 +53,24 @@ export class ArticleService {
   }
 
   async updateArticle (id: number, createArticleDto: CreateArticleDto, userId: number): Promise<ArticleEntity> {
-    const { tags, ...dto } = createArticleDto
-    const [tagEntities, articleEntity] = await Promise.all([
-      this.tagService.getTags(tags ?? []),
+    const { tags, categoryId, ...dto } = createArticleDto
+    const [
+      articleEntity,
+      tagEntities,
+      categoryEntity,
+    ] = await Promise.all([
       this.repository.findOne(id),
+      tags?.length ? this.tagService.getTags(tags) : [],
+      categoryId ? this.categoryService.findCategory(categoryId) : undefined,
     ])
-    if (!articleEntity) {
-      throw new NotFoundException()
-    }
+    if (!articleEntity) throw new NotFoundException()
 
-    // TODO: update category
+    if (categoryId && !categoryEntity) throw new FormException({ categoryId: ['isNotExist'] })
 
     this.repository.merge(articleEntity, {
       ...dto,
       tags: tagEntities,
+      category: categoryEntity,
       author: { id: userId },
     })
     return await this.repository.save(articleEntity)

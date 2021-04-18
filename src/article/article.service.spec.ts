@@ -154,12 +154,15 @@ describe('Article Service', () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
       jest.spyOn(repository, 'save').mockResolvedValue(articleFixture.entity)
       jest.spyOn(tagService, 'getTags').mockResolvedValue([tagFixture.entity])
+      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(categoryFixture.entity)
 
-      const articleEntity = await service.updateArticle(1, createArticleDto, 1)
+      const dto: CreateArticleDto = { ...createArticleDto, categoryId: 2 }
+      const articleEntity = await service.updateArticle(1, dto, 1)
 
       expect(repository.save).toBeCalledWith(expect.objectContaining({
         ...createArticleDto,
         tags: [tagFixture.entity],
+        category: categoryFixture.entity,
       }))
       expect(articleEntity).toHaveProperty('id')
     })
@@ -172,7 +175,17 @@ describe('Article Service', () => {
         .rejects.toThrow(NotFoundException)
     })
 
-    it('should throw FormException when submit a tag not existed', async () => {
+    it('should throw FormException when submit a not existed category', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
+      jest.spyOn(tagService, 'getTags').mockResolvedValue([])
+      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(undefined)
+
+      const dto: CreateArticleDto = { ...createArticleDto, categoryId: 999 }
+      await expect(service.updateArticle(articleFixture.entity.id, dto, 1))
+        .rejects.toThrow(NotFoundException)
+    })
+
+    it('should throw FormException when submit a not existed tag', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
       jest.spyOn(tagService, 'getTags').mockRejectedValue(new FormException({}))
 
