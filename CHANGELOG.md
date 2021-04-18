@@ -1,3 +1,22 @@
+## [0.3.2](https://github.com/mutoe-cms/cms-api/compare/v0.3.1...v0.3.2) (2021-04-18)
+
+
+### Features
+
+* **env:** add local env support ([a214628](https://github.com/mutoe-cms/cms-api/commit/a214628c405483d022fba37d137ea33ba7506d06) [e037639](https://github.com/mutoe-cms/cms-api/commit/e03763904442a6f7ba800ed75e38549c5a1055a3))
+* **article:** support add category when create article ([8a8e701](https://github.com/mutoe-cms/cms-api/commit/8a8e7019f7e1413084630520721d724af5eb5e12))
+* **category:** implement create category API ([17ae69d](https://github.com/mutoe-cms/cms-api/commit/17ae69d078728ed881a77f998df7020aba92b93c))
+* **category:** implement retrieve category API ([7ac11b0](https://github.com/mutoe-cms/cms-api/commit/7ac11b02e93dcd66b9896debf068e5e46127d3f9))
+* **category:** support update category when update article ([9f84efa](https://github.com/mutoe-cms/cms-api/commit/9f84efa64c989bd6fce57d3e3bc269ea63adcbac))
+* **tag:** add tags seed ([2118caf](https://github.com/mutoe-cms/cms-api/commit/2118cafcd0d920ce723b07d5a4dbcccaa409dddd))
+
+
+### Bug Fixes
+
+* **article:** return author object after create/update article ([cd2a0c7](https://github.com/mutoe-cms/cms-api/commit/cd2a0c7a1a2c37ea4f1b8ba86938edec3e8511d5))
+
+
+
 ## [0.3.1](https://github.com/mutoe-cms/cms-api/compare/v0.3.0...v0.3.1) (2021-04-07)
 
 
