@@ -82,7 +82,7 @@ describe('Article Service', () => {
   })
 
   describe('createArticle', () => {
-    it('should create article correctly', async function () {
+    it('should create article correctly', async () => {
       jest.spyOn(tagService, 'getTags').mockResolvedValue([tagFixture.entity])
       jest.spyOn(categoryService, 'findCategory').mockResolvedValue(categoryFixture.entity)
       jest.spyOn(repository, 'create').mockReturnValue(articleFixture.entity)
@@ -93,7 +93,7 @@ describe('Article Service', () => {
       expect(repository.save).toBeCalledWith(articleFixture.entity)
     })
 
-    it('should throw error when create article given tags not exist', async function () {
+    it('should throw error when create article given tags not exist', async () => {
       jest.spyOn(tagService, 'getTags').mockRejectedValue(new FormException({}))
       jest.spyOn(repository, 'create').mockReturnValue({ title: 'foo', content: 'content', id: 1 } as ArticleEntity)
 
@@ -114,7 +114,7 @@ describe('Article Service', () => {
   })
 
   describe('retrieveArticles', () => {
-    it('should find articles correctly', async function () {
+    it('should find articles correctly', async () => {
       jest.spyOn(repository, 'findAndCount').mockResolvedValue([[], 0])
       const articlesRo = await service.retrieveArticles({ page: 1, limit: 10 })
 
