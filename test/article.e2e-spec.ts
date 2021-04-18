@@ -157,6 +157,13 @@ describe('Article Module Integration', () => {
         }),
       } as ArticleEntity))
     })
+
+    it('should throw not found when retrieve a not existed article', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/article/999')
+
+      expect(response.status).toBe(404)
+    })
   })
 
   describe('/article/:id (PUT)', () => {

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Request } from '@nestjs/common'
+import { Body, Controller, Get, NotFoundException, Param, Post, Put, Query, Request } from '@nestjs/common'
 import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -52,7 +52,9 @@ export class ArticleController {
   @ApiOkResponse({ type: ArticleEntity })
   @ApiNotFoundResponse()
   async retrieveArticle (@Param('articleId') articleId: string): Promise<ArticleEntity> {
-    return await this.service.retrieveArticle(+articleId)
+    const articleEntity = await this.service.findArticle(+articleId)
+    if (!articleEntity) throw new NotFoundException()
+    return articleEntity
   }
 
   @Put('/:articleId')

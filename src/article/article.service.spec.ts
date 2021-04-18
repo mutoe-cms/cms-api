@@ -135,7 +135,7 @@ describe('Article Service', () => {
     it('should return article entity when article is exist', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
 
-      const articleEntity = await service.retrieveArticle(articleFixture.entity.id)
+      const articleEntity = await service.findArticle(articleFixture.entity.id)
 
       expect(articleEntity).toEqual(articleFixture.entity)
       expect(repository.findOne).toBeCalledWith(articleFixture.entity.id)
@@ -144,8 +144,9 @@ describe('Article Service', () => {
     it('should throw NotFound error when article is not exist', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
 
-      await expect(service.retrieveArticle(articleFixture.entity.id))
-        .rejects.toThrow(NotFoundException)
+      const result = await service.findArticle(articleFixture.entity.id)
+
+      expect(result).toBeUndefined()
     })
   })
 

@@ -49,10 +49,8 @@ export class ArticleService {
     return await paginate(this.repository, options)
   }
 
-  async retrieveArticle (id: number): Promise<ArticleEntity> {
-    const articleEntity = await this.repository.findOne(id)
-    if (!articleEntity) throw new NotFoundException()
-    return articleEntity
+  async findArticle (id: number): Promise<ArticleEntity | undefined> {
+    return await this.repository.findOne(id)
   }
 
   async updateArticle (id: number, createArticleDto: CreateArticleDto, userId: number): Promise<ArticleEntity> {
