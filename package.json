@@ -10,6 +10,7 @@
     "url": "https://github.com/mutoe-cms/cms-api"
   },
   "scripts": {
+    "prepare": "husky install",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "start": "nest start",
@@ -70,7 +71,7 @@
     "eslint-plugin-jest": "^24.3.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
-    "husky": "^4.3.8",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
     "lint-staged": "^10.5.4",
     "sqlite3": "^5.0.2",
@@ -79,13 +80,6 @@
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.3"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn test"
-    }
   },
   "lint-staged": {
     "{src,migration,seed,test}/**/*.ts": "eslint --fix"
