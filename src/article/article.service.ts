@@ -22,23 +22,26 @@ export class ArticleService {
   async createArticle (userId: number, createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
     const { categoryId, tags, ...dto } = createArticleDto
 
-    const articleEntity = this.repository.create({
+    const articleEntity = this.repository.create(dto)
+
+    const [
+      tagEntities,
+      categoryEntity,
+      userSafeEntity,
+    ] = await Promise.all([
+      tags?.length ? this.tagService.getTags(tags) : [],
+      categoryId ? this.categoryService.findCategory(categoryId) : undefined,
+      this.userService.findUser({ id: userId }),
+    ])
+
+    if (categoryId && !categoryEntity) throw new FormException({ categoryId: ['isNotExist'] })
+
+    this.repository.merge(articleEntity, {
       ...dto,
-      author: await this.userService.findUser({ id: userId }),
+      tags: tagEntities,
+      category: categoryEntity,
+      author: userSafeEntity,
     })
-
-    if (tags?.length) {
-      articleEntity.tags = await this.tagService.getTags(tags)
-    }
-
-    if (categoryId) {
-      const categoryEntity = await this.categoryService.findCategory(categoryId)
-      if (!categoryEntity) {
-        throw new FormException({ categoryId: ['isNotExist'] })
-      }
-      articleEntity.category = categoryEntity
-    }
-
     return await this.repository.save(articleEntity)
   }
 
@@ -58,10 +61,12 @@ export class ArticleService {
       articleEntity,
       tagEntities,
       categoryEntity,
+      userSafeEntity,
     ] = await Promise.all([
       this.repository.findOne(id),
       tags?.length ? this.tagService.getTags(tags) : [],
       categoryId ? this.categoryService.findCategory(categoryId) : undefined,
+      this.userService.findUser({ id: userId }),
     ])
     if (!articleEntity) throw new NotFoundException()
 
@@ -71,7 +76,7 @@ export class ArticleService {
       ...dto,
       tags: tagEntities,
       category: categoryEntity,
-      author: { id: userId },
+      author: userSafeEntity,
     })
     return await this.repository.save(articleEntity)
   }

@@ -60,6 +60,7 @@ describe('Article Module Integration', () => {
         id: 1,
         title: 'title',
         content: '<p>I am content</p>',
+        tags: [],
         createdAt: '2017-11-25T12:34:56.000Z',
         updatedAt: '2017-11-25T12:34:56.000Z',
         author: expect.objectContaining({
@@ -172,6 +173,10 @@ describe('Article Module Integration', () => {
       expect(response.status).toBe(200)
       expect(response.body).toEqual(expect.objectContaining({
         title: 'title',
+        author: expect.objectContaining({
+          id: 1,
+          username: 'admin',
+        }),
       }))
     })
 
