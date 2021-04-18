@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { pick } from 'lodash'
 import { AppController } from 'src/app/app.controller'
 import { AuthModule } from 'src/auth/auth.module'
 import { categoryFixture } from 'src/category/category.fixture'
@@ -75,13 +76,14 @@ describe('Category Module Integration', () => {
     })
   })
 
-  describe('/category/1 (GET)', () => {
+  describe('/category/:id (GET)', () => {
     it('should return category given existed category id', async () => {
       const response = await request(app.getHttpServer())
         .get('/category/1')
 
       expect(response.status).toBe(200)
-      expect(response.body).toEqual(expect.objectContaining(categoryFixture.entity))
+      const expected = pick(categoryFixture.entity, ['key', 'label', 'description'])
+      expect(response.body).toEqual(expect.objectContaining(expected))
     })
 
     it('should return 404 when category not exist', async () => {

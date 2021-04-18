@@ -1,8 +1,6 @@
-import { generateUsers } from 'seed/user.seed'
 import { UserEntity } from 'src/user/user.entity'
 import { cryptoPassword } from 'src/utils/cryptoPassword'
-import { getRepository, MigrationInterface } from 'typeorm'
-import { DeepPartial } from 'typeorm/browser'
+import { DeepPartial, getRepository, MigrationInterface } from 'typeorm'
 
 export class initAdminUser1597456904888 implements MigrationInterface {
   public async up (): Promise<void> {
@@ -12,7 +10,7 @@ export class initAdminUser1597456904888 implements MigrationInterface {
       username: 'admin',
       email: 'admin@cms.mutoe.com',
     }
-    await getRepository(UserEntity).save([adminUser, ...generateUsers(10)])
+    await getRepository(UserEntity).save(adminUser)
   }
 
   public async down (): Promise<void> {
