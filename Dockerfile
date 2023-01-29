@@ -2,13 +2,13 @@ FROM node:14-alpine AS development
 
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock ./
+COPY package.json pnpm-lock.yaml ./
 
-RUN yarn install --verbose --ignore-optional --non-interactive --frozen-lockfile
+RUN pnpm install --verbose --no-optional --frozen-lockfile
 
 COPY . .
 
-RUN yarn build
+RUN pnpm build
 
 
 FROM node:14-alpine AS production
@@ -18,9 +18,9 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock ./
+COPY package.json pnpm-lock.yaml ./
 
-RUN yarn install --verbose --prod --ignore-optional --non-interactive --frozen-lockfile
+RUN pnpm install --verbose --prod --no-optional --frozen-lockfile
 
 COPY --from=development /usr/src/app/dist ./dist
 

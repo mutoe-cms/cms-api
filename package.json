@@ -18,12 +18,12 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=production node dist/main",
     "lint": "eslint '{src,migration,seed,test}/**/*.ts'",
-    "test": "yarn test:unit --coverage && yarn test:integration",
+    "test": "pnpm test:unit --coverage && pnpm test:integration",
     "test:unit": "jest",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:integration": "jest --config ./test/jest-e2e.json",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "version": "yarn changelog && git add CHANGELOG.md"
+    "version": "pnpm changelog && git add CHANGELOG.md"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.6",

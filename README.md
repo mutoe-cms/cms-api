@@ -1,7 +1,7 @@
 ## Installation
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ## Running the app
@@ -11,21 +11,21 @@ yarn install
 docker-compose up -d postgres
 
 # development
-yarn start
+pnpm start
 
 # watch mode
-yarn start:dev
+pnpm start:dev
 
 # production mode
-yarn start:prod
+pnpm start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-yarn test:unit
+pnpm test:unit
 
 # e2e tests
-yarn test:e2e
+pnpm test:e2e
 ```
