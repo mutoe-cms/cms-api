@@ -17,7 +17,7 @@ export class AuthService {
   ) {}
 
   async register (registerDto: RegisterDto): Promise<AuthRo> {
-    let user: UserSafeEntity | undefined
+    let user: UserSafeEntity | null
     user = await this.userService.findUser({ username: registerDto.username })
     if (user?.id) {
       throw new FormException({ username: ['isExist'] })

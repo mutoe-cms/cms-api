@@ -13,7 +13,7 @@ export class CategoryService {
   ) {}
 
   async createCategory (dto: CreateCategoryDto): Promise<CategoryEntity> {
-    let categoryEntity = await this.repository.findOne({ key: dto.key })
+    let categoryEntity = await this.repository.findOneBy({ key: dto.key })
     if (categoryEntity) {
       throw new FormException({ key: ['isExist'] })
     }
@@ -21,7 +21,7 @@ export class CategoryService {
     categoryEntity = this.repository.create({ ...dto })
 
     if (dto.parentId) {
-      const parentCategory = await this.repository.findOne(dto.parentId)
+      const parentCategory = await this.repository.findOneBy({ id: dto.parentId })
       if (!parentCategory) {
         throw new FormException({ parentId: ['isNotExist'] })
       }
@@ -32,10 +32,10 @@ export class CategoryService {
   }
 
   async retrieveRootCategories (): Promise<CategoryEntity[]> {
-    return await this.repository.find({ parent: IsNull() })
+    return await this.repository.findBy({ parent: IsNull() })
   }
 
-  async findCategory (categoryId: number): Promise<CategoryEntity | undefined> {
-    return await this.repository.findOne(categoryId)
+  async findCategory (categoryId: number): Promise<CategoryEntity | null> {
+    return await this.repository.findOneBy({ id: categoryId })
   }
 }

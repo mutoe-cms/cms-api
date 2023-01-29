@@ -39,8 +39,8 @@ export class ArticleService {
     this.repository.merge(articleEntity, {
       ...dto,
       tags: tagEntities,
-      category: categoryEntity,
-      author: userSafeEntity,
+      category: categoryEntity ?? undefined,
+      author: userSafeEntity ?? undefined,
     })
     return await this.repository.save(articleEntity)
   }
@@ -49,8 +49,8 @@ export class ArticleService {
     return await paginate(this.repository, options)
   }
 
-  async findArticle (id: number): Promise<ArticleEntity | undefined> {
-    return await this.repository.findOne(id)
+  async findArticle (id: number): Promise<ArticleEntity | null> {
+    return await this.repository.findOneBy({ id })
   }
 
   async updateArticle (id: number, createArticleDto: CreateArticleDto, userId: number): Promise<ArticleEntity> {
@@ -61,7 +61,7 @@ export class ArticleService {
       categoryEntity,
       userSafeEntity,
     ] = await Promise.all([
-      this.repository.findOne(id),
+      this.repository.findOneBy({ id }),
       tags?.length ? this.tagService.getTags(tags) : [],
       categoryId ? this.categoryService.findCategory(categoryId) : undefined,
       this.userService.findUser({ id: userId }),
@@ -73,8 +73,8 @@ export class ArticleService {
     this.repository.merge(articleEntity, {
       ...dto,
       tags: tagEntities,
-      category: categoryEntity,
-      author: userSafeEntity,
+      category: categoryEntity ?? undefined,
+      author: userSafeEntity ?? undefined,
     })
     return await this.repository.save(articleEntity)
   }
