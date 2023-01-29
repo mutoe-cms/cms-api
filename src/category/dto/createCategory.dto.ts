@@ -5,15 +5,15 @@ import { ApiPropertyRichText } from 'src/decorators'
 export class CreateCategoryDto {
   @IsNotEmpty()
   @ApiProperty({ example: 'study-notes' })
-  key: string = ''
+    key: string = ''
 
   @IsNotEmpty()
   @ApiProperty({ example: 'Study notes' })
-  label: string = ''
+    label: string = ''
 
   @ApiPropertyRichText()
-  description?: string = ''
+    description?: string = ''
 
   @ApiPropertyOptional({ example: 1 })
-  parentId?: number = NaN
+    parentId?: number = Number.NaN
 }

@@ -12,14 +12,18 @@ export function ApiListResponse (type: ApiResponseMetadata['type']): MethodDecor
   }
 }
 
-export const ApiPropertyRichText = (options?: ApiPropertyOptions) => createApiPropertyDecorator({
-  required: false,
-  description: 'HTML content',
-  example: '<p>Hello <strong>Mutoe CMS</strong></p>',
-  ...options,
-})
+export const ApiPropertyRichText = (options?: ApiPropertyOptions): PropertyDecorator => {
+  return createApiPropertyDecorator({
+    required: false,
+    description: 'HTML content',
+    example: '<p>Hello <strong>Mutoe CMS</strong></p>',
+    ...options,
+  })
+}
 
-export const ApiPropertyDatetime = (options?: ApiPropertyOptions) => createApiPropertyDecorator({
-  example: '2020-08-16T00:04:59.343Z',
-  ...options,
-})
+export const ApiPropertyDatetime = (options?: ApiPropertyOptions): PropertyDecorator => {
+  return createApiPropertyDecorator({
+    example: '2020-08-16T00:04:59.343Z',
+    ...options,
+  })
+}

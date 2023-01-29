@@ -13,6 +13,5 @@ export class initAdminUser1597456904888 implements MigrationInterface {
     await getRepository(UserEntity).save(adminUser)
   }
 
-  public async down (): Promise<void> {
-  }
+  public async down (): Promise<void> {}
 }

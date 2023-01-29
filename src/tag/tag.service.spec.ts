@@ -39,12 +39,12 @@ describe('TagService', () => {
     it('should return tag entity when create tag given a valid tag', async () => {
       await service.createTag(tagFixture.dto)
 
-      expect(repository.save).toBeCalledWith(tagFixture.dto)
+      expect(repository.save).toHaveBeenCalledWith(tagFixture.dto)
     })
   })
 
   describe('find all tags', () => {
-    it('should find tags correctly', async function () {
+    it('should find tags correctly', async () => {
       jest.spyOn(repository, 'findAndCount').mockResolvedValue([[], 0])
       const articlesRo = await service.retrieveTags({ page: 1, limit: 10 })
 
@@ -57,7 +57,7 @@ describe('TagService', () => {
           totalPages: 0,
         },
       } as TagsRo)
-      expect(repository.findAndCount).toBeCalledWith({ order: { createdAt: 'DESC' }, skip: 0, take: 10 })
+      expect(repository.findAndCount).toHaveBeenCalledWith({ order: { createdAt: 'DESC' }, skip: 0, take: 10 })
     })
   })
 

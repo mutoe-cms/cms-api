@@ -14,7 +14,7 @@ export class FormExceptionBody implements Record<string, FormExceptionKey[]> {
   [x: string]: FormExceptionKey[]
 }
 
-export const ApiInvalidFormResponse = () => {
+export const ApiInvalidFormResponse = (): MethodDecorator & ClassDecorator => {
   const schema: SchemaObject = {
     title: 'UnprocessableEntityResponse',
     example: {

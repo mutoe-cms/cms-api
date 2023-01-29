@@ -17,38 +17,38 @@ const nullable = true
 export class UserSafeEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({ example: 1 })
-  id: number
+    id: number
 
   @Column({ length: 80 })
   @ApiProperty({ example: 'mutoe@foxmail.com' })
-  email: string
+    email: string
 
   @Column({ length: 20 })
   @ApiProperty({ example: 'mutoe' })
-  username: string
+    username: string
 
   @Column({ nullable, type: 'text' })
   @ApiPropertyOptional({ example: 'This guy is lazy and has left nothing.' })
-  bio?: string
+    bio?: string
 
   @Column({ nullable, type: 'text' })
   @ApiPropertyOptional({ example: 'https://imgur.com/200' })
-  image?: string
+    image?: string
 
   @CreateDateColumn()
   @ApiPropertyDatetime()
-  createdAt: string
+    createdAt: string
 
   @UpdateDateColumn()
   @ApiPropertyDatetime()
-  updatedAt: string
+    updatedAt: string
 }
 
 @Entity('user')
 export class UserEntity extends UserSafeEntity {
   @Column({ length: 64, select: false })
   @Exclude()
-  password: string
+    password: string
 
   @BeforeUpdate()
   @BeforeInsert()

@@ -35,23 +35,23 @@ describe('UserService', () => {
   })
 
   describe('create user', () => {
-    it('should create user correctly', async function () {
+    it('should create user correctly', async () => {
       const user = { email: 'mutoe@foxmail.com', username: 'mutoe', password: '12345678' }
       await service.createUser(user)
 
-      expect(repository.save).toBeCalledWith(Object.assign(new UserEntity(), user))
+      expect(repository.save).toHaveBeenCalledWith(Object.assign(new UserEntity(), user))
     })
   })
 
   describe('find user', () => {
-    it('should find user correctly', async function () {
+    it('should find user correctly', async () => {
       const user = { email: 'mutoe@foxmail.com', username: 'mutoe' }
       jest.spyOn(repository, 'findOne').mockResolvedValue(user as UserEntity)
       const userResult = await service.findUser({ username: user.username })
 
       expect(userResult).toBe(user)
       expect(userResult).not.toHaveProperty('password')
-      expect(repository.findOne).toBeCalledWith({ where: { username: user.username } })
+      expect(repository.findOne).toHaveBeenCalledWith({ where: { username: user.username } })
     })
 
     it('should find user without password when pass withoutPassword true', async () => {

@@ -27,4 +27,4 @@ async function bootstrap () {
   new Logger('NestApplication').log(`Listening http://0.0.0.0:${NEST_PORT}`)
 }
 
-bootstrap().catch(err => console.error(err))
+bootstrap().catch(error => console.error(error))

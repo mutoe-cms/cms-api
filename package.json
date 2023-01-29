@@ -52,6 +52,8 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "@mutoe/eslint-config-preset-jest": "^2.1.0",
+    "@mutoe/eslint-config-preset-ts": "^2.2.0",
     "@nestjs/cli": "^8.1.1",
     "@nestjs/schematics": "^8.0.2",
     "@nestjs/testing": "^8.0.6",
@@ -62,16 +64,9 @@
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.11",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
-    "@typescript-eslint/parser": "^4.29.2",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.32.0",
-    "eslint-config-standard-with-typescript": "^20.0.0",
-    "eslint-plugin-import": "^2.24.0",
-    "eslint-plugin-jest": "^24.4.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1",
+    "eslint": "^8.33.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
     "lint-staged": "^11.1.2",
@@ -126,61 +121,25 @@
     }
   },
   "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "project": "./tsconfig.json",
-      "sourceType": "module"
-    },
     "env": {
       "node": true
     },
     "extends": [
-      "standard-with-typescript",
-      "plugin:jest/recommended"
+      "@mutoe/eslint-config-preset-ts",
+      "@mutoe/eslint-config-preset-jest"
     ],
     "rules": {
-      "comma-dangle": [
-        "warn",
-        "always-multiline"
-      ],
-      "no-void": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/strict-boolean-expressions": "off",
-      "@typescript-eslint/consistent-type-assertions": "off",
-      "@typescript-eslint/no-invalid-void-type": "off",
-      "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/array-type": [
-        "error",
-        {
-          "default": "array"
-        }
-      ]
+      "no-useless-constructor": "off"
     },
     "overrides": [
-      {
-        "files": [
-          "src/**/*.{spec,test}.ts"
-        ],
-        "env": {
-          "jest": true
-        }
-      },
       {
         "files": [
           "migration/**"
         ],
         "rules": {
           "@typescript-eslint/no-var-requires": "off",
-          "@typescript-eslint/no-unused-vars": "off"
-        }
-      },
-      {
-        "files": [
-          "test/**/*.ts"
-        ],
-        "rules": {
-          "jest/expect-expect": "off"
+          "@typescript-eslint/no-unused-vars": "off",
+          "@typescript-eslint/no-empty-function": "off"
         }
       }
     ]

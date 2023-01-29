@@ -3,16 +3,16 @@ import { FindConditions, FindManyOptions, FindOneOptions, ObjectLiteral, Reposit
 
 export class PaginationMeta {
   @ApiResponseProperty({ example: 15 })
-  total: number
+    total: number
 
   @ApiResponseProperty({ example: 10 })
-  limit: number
+    limit: number
 
   @ApiResponseProperty({ example: 2 })
-  totalPages: number
+    totalPages: number
 
   @ApiResponseProperty({ example: 1 })
-  currentPage: number
+    currentPage: number
 }
 
 export interface PaginationRo<T> {
@@ -23,14 +23,14 @@ export interface PaginationRo<T> {
 type ClassType<T = any> = new (...args: any[]) => T
 
 // istanbul ignore next
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-redeclare
 export function PaginationRo<T extends ClassType> (ResourceClass: T) {
   class Pagination implements PaginationRo<T> {
     @ApiResponseProperty({ type: [ResourceClass] })
-    items: T[]
+      items: T[]
 
     @ApiResponseProperty({ type: PaginationMeta })
-    meta: PaginationMeta
+      meta: PaginationMeta
   }
 
   return Pagination

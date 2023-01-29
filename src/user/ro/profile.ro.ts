@@ -3,23 +3,23 @@ import { ApiPropertyDatetime } from 'src/decorators'
 
 export class ProfileRo {
   @ApiProperty({ example: 1 })
-  id: number
+    id: number
 
   @ApiProperty({ example: 'foo@example.com' })
-  email: string
+    email: string
 
   @ApiProperty({ example: 'foo' })
-  username: string
+    username: string
 
   @ApiPropertyDatetime()
-  createdAt: string
+    createdAt: string
 
   @ApiPropertyDatetime()
-  updatedAt: string
+    updatedAt: string
 
   @ApiPropertyOptional({ example: 'This guy is lazy and has left nothing.' })
-  bio?: string
+    bio?: string
 
   @ApiPropertyOptional({ example: 'https://picsum.photos/200' })
-  image?: string
+    image?: string
 }

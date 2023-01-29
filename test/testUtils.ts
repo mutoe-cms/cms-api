@@ -15,7 +15,7 @@ export const getToken = async (app: INestApplication): Promise<string> => {
   })
 }
 
-export const mockDate = (date: Date | string | number) => {
+export const mockDate = (date: Date | string | number): () => void => {
   const { Date } = global
 
   class MockDate extends Date {

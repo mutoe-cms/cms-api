@@ -90,7 +90,7 @@ describe('Article Service', () => {
       const articleDto: CreateArticleDto = { ...createArticleDto, categoryId: 1 }
       await service.createArticle(articleFixture.entity.id, articleDto)
 
-      expect(repository.save).toBeCalledWith(articleFixture.entity)
+      expect(repository.save).toHaveBeenCalledWith(articleFixture.entity)
     })
 
     it('should throw error when create article given tags not exist', async () => {
@@ -99,7 +99,7 @@ describe('Article Service', () => {
 
       await expect(
         service.createArticle(1, { title: 'foo', content: 'content', tags: ['not-exist'] }),
-      ).rejects.toThrowError(FormException)
+      ).rejects.toThrow(FormException)
     })
 
     it('should throw error given not existed categoryId', async () => {
@@ -127,7 +127,7 @@ describe('Article Service', () => {
           totalPages: 0,
         },
       } as ArticlesRo)
-      expect(repository.findAndCount).toBeCalledWith({ order: { createdAt: 'DESC' }, skip: 0, take: 10 })
+      expect(repository.findAndCount).toHaveBeenCalledWith({ order: { createdAt: 'DESC' }, skip: 0, take: 10 })
     })
   })
 
@@ -138,7 +138,7 @@ describe('Article Service', () => {
       const articleEntity = await service.findArticle(articleFixture.entity.id)
 
       expect(articleEntity).toEqual(articleFixture.entity)
-      expect(repository.findOne).toBeCalledWith(articleFixture.entity.id)
+      expect(repository.findOne).toHaveBeenCalledWith(articleFixture.entity.id)
     })
 
     it('should throw NotFound error when article is not exist', async () => {
@@ -160,7 +160,7 @@ describe('Article Service', () => {
       const dto: CreateArticleDto = { ...createArticleDto, categoryId: 2 }
       const articleEntity = await service.updateArticle(1, dto, 1)
 
-      expect(repository.save).toBeCalledWith(expect.objectContaining({
+      expect(repository.save).toHaveBeenCalledWith(expect.objectContaining({
         ...createArticleDto,
         tags: [tagFixture.entity],
         category: categoryFixture.entity,

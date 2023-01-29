@@ -3,7 +3,7 @@ import { Repository } from 'typeorm'
 
 describe('# Paginate', () => {
   const cat = new Repository()
-  const cats = new Array(11).fill({})
+  const cats = Array.from({ length: 11 }).fill({})
 
   it('should return correct value given offset with 0', async () => {
     jest.spyOn(cat, 'findAndCount').mockResolvedValue([cats, 11])

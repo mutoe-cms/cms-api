@@ -42,7 +42,7 @@ describe('CategoryService', () => {
 
       await service.createCategory(categoryFixture.dto)
 
-      expect(repository.save).toBeCalledWith(categoryFixture.entity)
+      expect(repository.save).toHaveBeenCalledWith(categoryFixture.entity)
     })
 
     it('should return created category given a valid form and existed parent category id', async () => {
@@ -53,7 +53,7 @@ describe('CategoryService', () => {
 
       await service.createCategory({ ...categoryFixture.dto, parentId: 1 })
 
-      expect(repository.save).toBeCalledWith(expect.objectContaining({
+      expect(repository.save).toHaveBeenCalledWith(expect.objectContaining({
         ...categoryFixture.entity,
         parent: { id: 1 },
       }))

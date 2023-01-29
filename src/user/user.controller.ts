@@ -16,6 +16,7 @@ export class UserController {
   @ApiOkResponse({ type: ProfileRo })
   async profile (@Request() { user }: AuthRequest): Promise<ProfileRo> {
     const userSafeEntity = await this.service.findUser({ id: user.userId })
+    // FIXME: safety getter
     return userSafeEntity!
   }
 }

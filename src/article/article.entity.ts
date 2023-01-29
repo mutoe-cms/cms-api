@@ -20,34 +20,34 @@ const nullable = true
 export class ArticleEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({ example: 1 })
-  id: number
+    id: number
 
-  @ManyToOne(_type => UserEntity, { eager: true, cascade: ['update'] })
+  @ManyToOne(() => UserEntity, { eager: true, cascade: ['update'] })
   @ApiProperty({ type: UserSafeEntity, description: 'Article author' })
-  author: UserSafeEntity
+    author: UserSafeEntity
 
   @Column({ type: 'text' })
   @ApiProperty({ example: 'Lorem ipsum' })
-  title: string
+    title: string
 
-  @ManyToOne(_type => CategoryEntity, { eager: true, cascade: ['update'] })
+  @ManyToOne(() => CategoryEntity, { eager: true, cascade: ['update'] })
   @ApiPropertyOptional({ type: CategoryEntity, description: 'Article category' })
-  category?: CategoryEntity
+    category?: CategoryEntity
 
   @ManyToMany(() => TagEntity, { eager: true })
   @JoinTable()
   @ApiProperty({ type: TagEntity, isArray: true, description: 'Article tags' })
-  tags: TagEntity[]
+    tags: TagEntity[]
 
   @Column({ type: 'text', nullable })
   @ApiPropertyRichText()
-  content?: string
+    content?: string
 
   @CreateDateColumn()
   @ApiPropertyDatetime()
-  createdAt: string
+    createdAt: string
 
   @UpdateDateColumn()
   @ApiPropertyDatetime()
-  updatedAt: string
+    updatedAt: string
 }

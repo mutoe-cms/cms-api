@@ -1,4 +1,4 @@
-import { createHmac } from 'crypto'
+import { createHmac } from 'node:crypto'
 import { NEST_SECRET } from 'src/config'
 
 export function cryptoPassword (password: string): string {
