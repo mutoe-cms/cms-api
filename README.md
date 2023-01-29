@@ -10,6 +10,11 @@ pnpm install
 # start database
 docker-compose up -d postgres
 
+# or (if you are not using docker)
+psql postgres
+# Next line is the PSQL CLI command
+CREATE DATABASE cms_api WITH OWNER postgres;
+
 # development
 pnpm start
 
