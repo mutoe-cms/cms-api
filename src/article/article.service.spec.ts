@@ -105,7 +105,7 @@ describe('Article Service', () => {
     it('should throw error given not existed categoryId', async () => {
       jest.spyOn(tagService, 'getTags').mockResolvedValue([tagFixture.entity])
       jest.spyOn(repository, 'create').mockReturnValue(articleFixture.entity)
-      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(undefined)
+      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(null)
 
       const articleDto: CreateArticleDto = { ...createArticleDto, categoryId: 999 }
       await expect(service.createArticle(articleFixture.entity.id, articleDto))
@@ -142,7 +142,7 @@ describe('Article Service', () => {
     })
 
     it('should throw NotFound error when article is not exist', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
 
       const result = await service.findArticle(articleFixture.entity.id)
 
@@ -169,7 +169,7 @@ describe('Article Service', () => {
     })
 
     it('should throw NotFound error when article is not exist', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
       jest.spyOn(tagService, 'getTags').mockResolvedValue([])
 
       await expect(service.updateArticle(articleFixture.entity.id, createArticleDto, 1))
@@ -177,9 +177,9 @@ describe('Article Service', () => {
     })
 
     it('should throw FormException when submit a not existed category', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(undefined)
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
       jest.spyOn(tagService, 'getTags').mockResolvedValue([])
-      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(undefined)
+      jest.spyOn(categoryService, 'findCategory').mockResolvedValue(null)
 
       const dto: CreateArticleDto = { ...createArticleDto, categoryId: 999 }
       await expect(service.updateArticle(articleFixture.entity.id, dto, 1))

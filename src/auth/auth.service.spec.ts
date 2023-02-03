@@ -40,7 +40,7 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('should return user profile when register successful', async () => {
-      jest.spyOn(userService, 'findUser').mockResolvedValue(undefined)
+      jest.spyOn(userService, 'findUser').mockResolvedValue(null)
       jest.spyOn(userService, 'createUser').mockResolvedValue({ foo: 'bar' } as never)
       jest.spyOn(authService, 'generateToken').mockReturnValue('token')
       const registerDto = { email: 'foo@bar.com', username: 'foobar', password: '123456' }
@@ -60,7 +60,7 @@ describe('AuthService', () => {
     })
 
     it('should throw error when email is exist', async () => {
-      jest.spyOn(userService, 'findUser').mockResolvedValueOnce(undefined)
+      jest.spyOn(userService, 'findUser').mockResolvedValueOnce(null)
       jest.spyOn(userService, 'findUser').mockResolvedValueOnce({ id: 1, email: 'exist_email@bar.com' } as UserSafeEntity)
       const registerDto = { email: 'exist_email@bar.com', username: 'username', password: '123456' }
 
@@ -94,7 +94,7 @@ describe('AuthService', () => {
     })
 
     it('should throw bad request exception when invalid user', async () => {
-      jest.spyOn(userService, 'findUser').mockResolvedValue(undefined)
+      jest.spyOn(userService, 'findUser').mockResolvedValue(null)
 
       const validateUser = authService.validateUser('foo@bar.com', '')
       await expect(validateUser).rejects.toThrow(new FormException({ username: ['isNotExist'] }))
