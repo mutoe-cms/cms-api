@@ -42,7 +42,7 @@ describe('Article Service', () => {
           useValue: {
             create: jest.fn(),
             save: jest.fn(),
-            findOne: jest.fn(),
+            findOneBy: jest.fn(),
             findAndCount: jest.fn(),
             merge: Object.assign,
           },
@@ -133,26 +133,26 @@ describe('Article Service', () => {
 
   describe('retrieveArticle', () => {
     it('should return article entity when article is exist', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(articleFixture.entity)
 
       const articleEntity = await service.findArticle(articleFixture.entity.id)
 
       expect(articleEntity).toEqual(articleFixture.entity)
-      expect(repository.findOne).toHaveBeenCalledWith(articleFixture.entity.id)
+      expect(repository.findOneBy).toHaveBeenCalledWith({ id: articleFixture.entity.id })
     })
 
     it('should throw NotFound error when article is not exist', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null)
 
       const result = await service.findArticle(articleFixture.entity.id)
 
-      expect(result).toBeUndefined()
+      expect(result).toBeNull()
     })
   })
 
   describe('updateArticle', () => {
     it('should return the article when submit a valid article with login', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(articleFixture.entity)
       jest.spyOn(repository, 'save').mockResolvedValue(articleFixture.entity)
       jest.spyOn(tagService, 'getTags').mockResolvedValue([tagFixture.entity])
       jest.spyOn(categoryService, 'findCategory').mockResolvedValue(categoryFixture.entity)
@@ -169,7 +169,7 @@ describe('Article Service', () => {
     })
 
     it('should throw NotFound error when article is not exist', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null)
       jest.spyOn(tagService, 'getTags').mockResolvedValue([])
 
       await expect(service.updateArticle(articleFixture.entity.id, createArticleDto, 1))
@@ -177,7 +177,7 @@ describe('Article Service', () => {
     })
 
     it('should throw FormException when submit a not existed category', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null)
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null)
       jest.spyOn(tagService, 'getTags').mockResolvedValue([])
       jest.spyOn(categoryService, 'findCategory').mockResolvedValue(null)
 
@@ -187,7 +187,7 @@ describe('Article Service', () => {
     })
 
     it('should throw FormException when submit a not existed tag', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(articleFixture.entity)
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(articleFixture.entity)
       jest.spyOn(tagService, 'getTags').mockRejectedValue(new FormException({}))
 
       const dto = { ...createArticleDto, tags: ['not-exist'] }

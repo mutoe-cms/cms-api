@@ -1,9 +1,11 @@
+import { CategoryEntity } from 'src/category/category.entity'
 import { paginate, PaginationRo } from 'src/utils/paginate'
-import { Repository } from 'typeorm'
+import { Repository, EntityManager, DataSource } from 'typeorm'
 
 describe('# Paginate', () => {
-  const cat = new Repository()
-  const cats = Array.from({ length: 11 }).fill({})
+  const entityManager = new EntityManager(new DataSource({ type: 'postgres' }))
+  const cat = new Repository(CategoryEntity, entityManager)
+  const cats = Array.from({ length: 11 }).fill({}) as CategoryEntity[]
 
   it('should return correct value given offset with 0', async () => {
     jest.spyOn(cat, 'findAndCount').mockResolvedValue([cats, 11])
@@ -17,7 +19,7 @@ describe('# Paginate', () => {
         currentPage: 1,
         totalPages: 2,
       },
-    } as PaginationRo<typeof cat>)
+    } as PaginationRo)
   })
 
   it('should return correct value given offset with 10', async () => {
@@ -32,7 +34,7 @@ describe('# Paginate', () => {
         currentPage: 1,
         totalPages: 2,
       },
-    } as PaginationRo<typeof cat>)
+    } as PaginationRo)
   })
 
   it('should return correct value given total with 10', async () => {
@@ -47,6 +49,6 @@ describe('# Paginate', () => {
         currentPage: 2,
         totalPages: 1,
       },
-    } as PaginationRo<typeof cat>)
+    } as PaginationRo)
   })
 })

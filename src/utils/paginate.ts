@@ -15,7 +15,7 @@ export class PaginationMeta {
     currentPage: number
 }
 
-export interface PaginationRo<T> {
+export interface PaginationRo<T = unknown> {
   items: T[]
   meta: PaginationMeta
 }
