@@ -9,8 +9,8 @@ import { CategoryModule } from 'src/category/category.module'
 import { CreateCategoryDto } from 'src/category/dto/createCategory.dto'
 import { validationPipe } from 'src/pipes'
 import * as request from 'supertest'
-import { getToken } from 'test/testUtils'
-import ormConfig from './orm-config'
+import { testTypeormOptions } from 'test/test-data-source'
+import { getToken } from 'test/test-utils'
 
 describe('Category Module Integration', () => {
   let app: INestApplication
@@ -19,7 +19,7 @@ describe('Category Module Integration', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot(ormConfig),
+        TypeOrmModule.forRoot(testTypeormOptions),
         AuthModule,
         CategoryModule,
       ],

@@ -20,9 +20,10 @@ describe('App Module Integration', () => {
   })
 
   it('/hello (GET)', async () => {
-    return await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .get('/hello?name=world')
-      .expect(200)
-      .expect('Hello world!')
+
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual('Hello world!')
   })
 })

@@ -52,6 +52,7 @@ export class UserEntity extends UserSafeEntity {
 
   @BeforeUpdate()
   @BeforeInsert()
+  // istanbul ignore next
   hashPassword (): void {
     this.password = cryptoPassword(this.password)
   }

@@ -1,3 +1,4 @@
+import assert from 'node:assert'
 import { Controller, Get, Request } from '@nestjs/common'
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { AuthRequest } from 'src/auth/jwt.strategy'
@@ -16,7 +17,7 @@ export class UserController {
   @ApiOkResponse({ type: ProfileRo })
   async profile (@Request() { user }: AuthRequest): Promise<ProfileRo> {
     const userSafeEntity = await this.service.findUser({ id: user.userId })
-    // FIXME: safety getter
-    return userSafeEntity!
+    assert(userSafeEntity, `User ${user.userId} not exist`)
+    return userSafeEntity
   }
 }

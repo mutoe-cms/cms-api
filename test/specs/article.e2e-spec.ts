@@ -9,9 +9,9 @@ import { AuthModule } from 'src/auth/auth.module'
 import { validationPipe } from 'src/pipes'
 import { TagModule } from 'src/tag/tag.module'
 import { UserModule } from 'src/user/user.module'
-import * as request from 'supertest'
-import { getToken, mockDate } from 'test/testUtils'
-import ormConfig from './orm-config'
+import request from 'supertest'
+import { getToken, mockDate } from 'test/test-utils'
+import { testTypeormOptions } from 'test/test-data-source'
 
 describe('Article Module Integration', () => {
   let app: INestApplication
@@ -20,7 +20,7 @@ describe('Article Module Integration', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot(ormConfig),
+        TypeOrmModule.forRoot(testTypeormOptions),
         ArticleModule,
         AuthModule,
         UserModule,
@@ -98,7 +98,7 @@ describe('Article Module Integration', () => {
       expect(response.body).toHaveProperty('title', ['isNotEmpty'])
     })
 
-    it('should return 422 when create article given an invalid tag', async function () {
+    it('should return 422 when create article given an invalid tag', async () => {
       const requestBody: CreateArticleDto = {
         title: 'Title',
         tags: ['not-exist'],

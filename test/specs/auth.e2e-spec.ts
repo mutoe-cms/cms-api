@@ -8,7 +8,7 @@ import { LoginDto } from 'src/auth/dto/login.dto'
 import { RegisterDto } from 'src/auth/dto/register.dto'
 import { UserModule } from 'src/user/user.module'
 import * as request from 'supertest'
-import ormConfig from './orm-config'
+import { testTypeormOptions } from 'test/test-data-source'
 
 describe('Auth Module Integration', () => {
   let app: INestApplication
@@ -16,7 +16,7 @@ describe('Auth Module Integration', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot(ormConfig),
+        TypeOrmModule.forRoot(testTypeormOptions),
         UserModule,
         AuthModule,
         ArticleModule,

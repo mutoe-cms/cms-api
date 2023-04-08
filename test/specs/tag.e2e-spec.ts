@@ -7,8 +7,8 @@ import { validationPipe } from 'src/pipes'
 import { CreateTagDto } from 'src/tag/dto/createTag.dto'
 import { TagModule } from 'src/tag/tag.module'
 import * as request from 'supertest'
-import { getToken, mockDate } from 'test/testUtils'
-import ormConfig from './orm-config'
+import { testTypeormOptions } from 'test/test-data-source'
+import { getToken, mockDate } from 'test/test-utils'
 
 describe('Article Module Integration', () => {
   let app: INestApplication
@@ -17,7 +17,7 @@ describe('Article Module Integration', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot(ormConfig),
+        TypeOrmModule.forRoot(testTypeormOptions),
         TagModule,
         AuthModule,
       ],

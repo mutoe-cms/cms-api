@@ -21,19 +21,20 @@ const entity: ArticleEntity = {
   createdAt: '2021-04-18T07:51:33.299Z',
   updatedAt: '2021-04-18T07:51:33.299Z',
 }
+const entity2: ArticleEntity = {
+  id: 2,
+  title: 'Article title 2',
+  author: userFixture.adminEntity,
+  category: categoryFixture.entity,
+  tags: tagFixture.entities,
+  content: '# Article content 2',
+  createdAt: '2021-04-18T07:51:33.299Z',
+  updatedAt: '2021-04-18T07:51:33.299Z',
+}
 
 const entities: ArticleEntity[] = [
   entity,
-  {
-    id: 1,
-    title: 'Article title',
-    author: userFixture.adminEntity,
-    category: categoryFixture.entity,
-    tags: tagFixture.entities,
-    content: '# Article content',
-    createdAt: '2021-04-18T07:51:33.299Z',
-    updatedAt: '2021-04-18T07:51:33.299Z',
-  },
+  entity2,
 ]
 
 export const articleFixture = {
