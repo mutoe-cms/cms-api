@@ -1,6 +1,7 @@
 {
   "name": "cms-api",
   "author": "mutoe <mutoe@foxmail.com>",
+  "private": true,
   "version": "0.3.2",
   "description": "",
   "license": "MIT",
@@ -8,7 +9,6 @@
     "type": "git",
     "url": "https://github.com/mutoe-cms/cms-api"
   },
-  "private": true,
   "scripts": {
     "prepare": "husky install",
     "prebuild": "rimraf dist",
@@ -54,8 +54,8 @@
     "typeorm": "^0.3.13"
   },
   "devDependencies": {
-    "@mutoe/eslint-config-preset-jest": "~2.4.1",
-    "@mutoe/eslint-config-preset-ts": "~2.4.0",
+    "@mutoe/eslint-config-preset-jest": "~3.0.0",
+    "@mutoe/eslint-config-preset-ts": "~3.0.0",
     "@nestjs/cli": "^9.3.0",
     "@nestjs/schematics": "^9.1.0",
     "@nestjs/testing": "^9.4.0",
@@ -87,9 +87,6 @@
       "@mutoe/eslint-config-preset-ts",
       "@mutoe/eslint-config-preset-jest"
     ],
-    "rules": {
-      "no-useless-constructor": "off"
-    },
     "overrides": [
       {
         "files": [
@@ -115,9 +112,12 @@
     ],
     "testRegex": "src/.*.spec.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": ["<rootDir>/test/fix-istanbul-decorators.cjs", {
-        "isolateModules": true
-      }]
+      "^.+\\.(t|j)s$": [
+        "<rootDir>/test/fix-istanbul-decorators.cjs",
+        {
+          "isolateModules": true
+        }
+      ]
     },
     "testEnvironment": "node",
     "coverageDirectory": "<rootDir>/coverage",

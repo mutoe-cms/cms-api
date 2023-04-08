@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 import { CategoryEntity } from 'src/category/category.entity'
 import { categoryFixture } from 'src/category/category.fixture'
 import { FormException } from 'src/exception'
-import { Repository } from 'typeorm'
 import { CategoryService } from './category.service'
 
 describe('CategoryService', () => {

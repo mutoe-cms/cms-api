@@ -1,8 +1,4 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { CategoryEntity } from 'src/category/category.entity'
-import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
-import { TagEntity } from 'src/tag/tag.entity'
-import { UserEntity, UserSafeEntity } from 'src/user/user.entity'
 import {
   Column,
   CreateDateColumn,
@@ -13,6 +9,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { CategoryEntity } from 'src/category/category.entity'
+import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
+import { TagEntity } from 'src/tag/tag.entity'
+import { UserEntity, UserSafeEntity } from 'src/user/user.entity'
 
 const nullable = true
 

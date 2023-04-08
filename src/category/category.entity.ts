@@ -1,5 +1,4 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +9,7 @@ import {
   TreeParent,
   UpdateDateColumn,
 } from 'typeorm'
+import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
 
 @Entity('category')
 @Tree('closure-table')

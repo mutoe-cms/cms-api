@@ -1,6 +1,6 @@
+import { DataSource, EntityManager, Repository } from 'typeorm'
 import { CategoryEntity } from 'src/category/category.entity'
-import { paginate, PaginationRo } from 'src/utils/paginate'
-import { Repository, EntityManager, DataSource } from 'typeorm'
+import { PaginationRo, paginate } from 'src/utils/paginate'
 
 describe('# Paginate', () => {
   const entityManager = new EntityManager(new DataSource({ type: 'postgres' }))

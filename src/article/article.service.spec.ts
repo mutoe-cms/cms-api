@@ -1,6 +1,7 @@
 import { NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 import { ArticleEntity } from 'src/article/article.entity'
 import { articleFixture } from 'src/article/article.fixture'
 import { ArticleService } from 'src/article/article.service'
@@ -15,7 +16,6 @@ import { tagFixture } from 'src/tag/tag.fixture'
 import { TagService } from 'src/tag/tag.service'
 import { UserEntity } from 'src/user/user.entity'
 import { UserService } from 'src/user/user.service'
-import { Repository } from 'typeorm'
 
 describe('Article Service', () => {
   let service: ArticleService

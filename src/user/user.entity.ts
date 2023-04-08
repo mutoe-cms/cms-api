@@ -1,7 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
-import { ApiPropertyDatetime } from 'src/decorators'
-import { cryptoPassword } from 'src/utils/cryptoPassword'
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -11,6 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { ApiPropertyDatetime } from 'src/decorators'
+import { cryptoPassword } from 'src/utils/cryptoPassword'
 
 const nullable = true
 

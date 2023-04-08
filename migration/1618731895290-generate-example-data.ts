@@ -1,10 +1,10 @@
+import { MigrationInterface, QueryRunner } from 'typeorm'
 import { ArticleEntity } from 'src/article/article.entity'
 import { articleFixture } from 'src/article/article.fixture'
 import { CategoryEntity } from 'src/category/category.entity'
 import { categoryFixture } from 'src/category/category.fixture'
 import { TagEntity } from 'src/tag/tag.entity'
 import { tagFixture } from 'src/tag/tag.fixture'
-import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export class generateExampleData1618731895290 implements MigrationInterface {
   public async up (queryRunner: QueryRunner): Promise<void> {

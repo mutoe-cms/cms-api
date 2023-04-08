@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm'
+import { ApiPropertyDatetime, ApiPropertyRichText } from 'src/decorators'
 
 const nullable = true
 

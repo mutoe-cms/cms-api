@@ -1,12 +1,12 @@
 import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import * as request from 'supertest'
 import { AppController } from 'src/app/app.controller'
 import { AuthModule } from 'src/auth/auth.module'
 import { validationPipe } from 'src/pipes'
 import { CreateTagDto } from 'src/tag/dto/createTag.dto'
 import { TagModule } from 'src/tag/tag.module'
-import * as request from 'supertest'
 import { testTypeormOptions } from 'test/test-data-source'
 import { getToken, mockDate } from 'test/test-utils'
 
