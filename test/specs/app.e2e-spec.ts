@@ -24,6 +24,6 @@ describe('App Module Integration', () => {
       .get('/hello?name=world')
 
     expect(response.status).toBe(200)
-    expect(response.body).toEqual('Hello world!')
+    expect(response.text).toEqual('Hello world!')
   })
 })
