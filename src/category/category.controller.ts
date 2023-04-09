@@ -10,7 +10,7 @@ import {
 import { CategoryEntity } from 'src/category/category.entity'
 import { CategoryService } from 'src/category/category.service'
 import { CreateCategoryDto } from 'src/category/dto/createCategory.dto'
-import { ApiInvalidFormResponse } from 'src/exception'
+import { ApiInvalidFormResponse } from 'src/decorators'
 import { UseJwtGuards } from 'src/guards'
 
 @Controller('category')

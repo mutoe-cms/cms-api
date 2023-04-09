@@ -1,8 +1,11 @@
-import { INestApplication } from '@nestjs/common'
+import { INestApplication, Logger } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { version } from 'package.json'
+import { NEST_PORT } from 'src/config'
 
 export function createSwagger (app: INestApplication): void {
+  const logger = new Logger('Swagger')
+
   const options = new DocumentBuilder()
     .setTitle('CMS')
     .setVersion(version)
@@ -17,4 +20,8 @@ export function createSwagger (app: INestApplication): void {
 
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('/docs', app, document)
+
+  setTimeout(() => {
+    logger.log(`Swagger is started at http://0.0.0.0:${NEST_PORT}/docs`)
+  })
 }

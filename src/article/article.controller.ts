@@ -6,14 +6,13 @@ import {
   ApiOperation,
   ApiParam,
   ApiTags,
-  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger'
 import { ArticleEntity } from 'src/article/article.entity'
 import { ArticleService } from 'src/article/article.service'
 import { ArticlesRo } from 'src/article/dto/articles.ro'
 import { CreateArticleDto } from 'src/article/dto/createArticle.dto'
 import { AuthRequest } from 'src/auth/jwt.strategy'
-import { ApiListResponse } from 'src/decorators'
+import { ApiInvalidFormResponse, ApiListResponse } from 'src/decorators'
 import { UseJwtGuards } from 'src/guards'
 import { PaginationRo } from 'src/utils/paginate'
 
@@ -28,7 +27,7 @@ export class ArticleController {
   @UseJwtGuards()
   @ApiOperation({ operationId: 'createArticle', summary: 'Create article' })
   @ApiCreatedResponse({ type: ArticleEntity })
-  @ApiUnprocessableEntityResponse()
+  @ApiInvalidFormResponse()
   async createArticle (
     @Request() { user }: AuthRequest,
       @Body() createArticleDto: CreateArticleDto,
@@ -63,7 +62,7 @@ export class ArticleController {
   @ApiParam({ name: 'articleId', type: Number, example: '1' })
   @ApiOkResponse({ type: ArticleEntity })
   @ApiNotFoundResponse()
-  @ApiUnprocessableEntityResponse()
+  @ApiInvalidFormResponse()
   async updateArticle (
     @Param('articleId') articleId: string,
       @Request() { user }: AuthRequest,

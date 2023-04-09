@@ -17,15 +17,9 @@ async function bootstrap () {
   await dataSource.runMigrations()
   await dataSource.destroy()
 
-  if (SWAGGER_ENABLE) {
-    createSwagger(app)
-    setTimeout(() => {
-      new Logger('Swagger').log(`Swagger is started at http://0.0.0.0:${NEST_PORT}/docs`)
-    })
-  }
+  if (SWAGGER_ENABLE) createSwagger(app)
 
   await app.listen(NEST_PORT)
-
   new Logger('NestApplication').log(`Listening http://0.0.0.0:${NEST_PORT}`)
 }
 

@@ -5,7 +5,9 @@ import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger'
 export const UseJwtGuards = (): MethodDecorator => {
   const jwtGuards = UseGuards(AuthGuard('jwt'))
   const apiBearerAuth = ApiBearerAuth()
-  const apiUnauthorizedResponse = ApiUnauthorizedResponse()
+  const apiUnauthorizedResponse = ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
 
   const decorator: MethodDecorator = (...args) => {
     jwtGuards(...args)

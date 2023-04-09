@@ -4,12 +4,11 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
-  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger'
 import { AuthRo } from 'src/auth/dto/auth.ro'
 import { LoginDto } from 'src/auth/dto/login.dto'
 import { RegisterDto } from 'src/auth/dto/register.dto'
-import { ApiInvalidFormResponse } from 'src/exception'
+import { ApiInvalidFormResponse } from 'src/decorators'
 import { AuthService } from './auth.service'
 
 @Controller('auth')
@@ -33,7 +32,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'login', operationId: 'login' })
   @ApiOkResponse({ type: AuthRo })
-  @ApiUnprocessableEntityResponse({ schema: { example: { a: 1 } } })
+  @ApiInvalidFormResponse()
   async login (@Body() loginDto: LoginDto): Promise<AuthRo> {
     const userProfile = await this.service.login(loginDto)
     return userProfile

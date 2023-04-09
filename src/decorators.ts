@@ -1,5 +1,13 @@
-import { ApiOkResponse, ApiPropertyOptions, ApiQuery, ApiResponseMetadata } from '@nestjs/swagger'
+import {
+  ApiOkResponse,
+  ApiPropertyOptions,
+  ApiQuery,
+  ApiResponseMetadata,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger'
 import { createApiPropertyDecorator } from '@nestjs/swagger/dist/decorators/api-property.decorator'
+import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface'
+import { FormExceptionBody } from 'src/exception'
 
 export function ApiListResponse (type: ApiResponseMetadata['type']): MethodDecorator {
   const pageQueryDecorator = ApiQuery({ name: 'page', type: 'number', example: 1, required: false })
@@ -26,4 +34,16 @@ export const ApiPropertyDatetime = (options?: ApiPropertyOptions): PropertyDecor
     example: '2020-08-16T00:04:59.343Z',
     ...options,
   })
+}
+
+export const ApiInvalidFormResponse = (): MethodDecorator & ClassDecorator => {
+  const schema: SchemaObject = {
+    title: 'UnprocessableEntityResponse',
+    example: {
+      username: ['isInvalid', 'isExist'],
+      password: ['isNotEmpty'],
+    } as FormExceptionBody,
+  }
+
+  return ApiUnprocessableEntityResponse({ schema })
 }
