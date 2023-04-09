@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import * as request from 'supertest'
+import request from 'supertest'
 import { AppController } from 'src/app/app.controller'
 import { ArticleEntity } from 'src/article/article.entity'
 import { ArticleModule } from 'src/article/article.module'
