@@ -22,7 +22,6 @@ export interface PaginationRo<T = unknown> {
 
 type ClassType<T = any> = new (...args: any[]) => T
 
-// istanbul ignore next
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-redeclare
 export function PaginationRo<T extends ClassType> (ResourceClass: T) {
   class Pagination implements PaginationRo<T> {

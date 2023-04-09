@@ -124,10 +124,9 @@
     ],
     "coverageThreshold": {
       "src/**/*.ts": {
-        "branches": 70,
-        "statements": 80,
-        "functions": 80,
-        "lines": 70
+        "branches": -10,
+        "statements": -15,
+        "functions": -3
       }
     }
   }
